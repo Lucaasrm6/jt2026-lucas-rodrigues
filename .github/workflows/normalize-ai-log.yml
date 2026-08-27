@@ -1,0 +1,48 @@
+name: normalize-ai-log-header
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Normalize AI log header
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('ai-log/01_ai_log.md')
+          text = p.read_text(encoding='utf-8')
+          old = """# AI Log — prompts principais e respostas literais
+
+> As respostas do **Claude Code** abaixo foram transcritas literalmente do arquivo de sessão local (`e34984bc-5c7a-4a4b-993e-a3a502f49cf2.jsonl`). Não foram resumidas, reescritas ou corrigidas neste documento.
+>
+> Foram removidos apenas itens sem relação com o desenvolvimento analítico: saudações, comandos locais, tentativas iniciais de localização dos arquivos, retries e erros de infraestrutura/API.
+>
+> Quando uma conclusão antiga aparece numa resposta literal e depois é corrigida, ela permanece aqui exatamente como ocorreu; a correção aparece no ciclo seguinte.
+"""
+          new = """# AI Log — sessão de trabalho com IA
+
+> Registro dos prompts e respostas utilizados no desenvolvimento analítico do case. As respostas do **Claude Code** são apresentadas literalmente. Quando uma conclusão foi revisada durante o processo, a correção aparece no ciclo subsequente.
+"""
+          if old not in text:
+              raise SystemExit('Cabeçalho esperado não encontrado; nenhuma alteração feita.')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Remove one-time workflow and commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/normalize-ai-log.yml
+          git add ai-log/01_ai_log.md
+          git commit -m "docs: normalize AI log presentation"
+          git push

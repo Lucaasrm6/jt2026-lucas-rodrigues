@@ -1,5 +1,7 @@
 🎥 **Vídeo (até 3 min):** [COLE_AQUI_O_LINK_PUBLICO_DO_GOOGLE_DRIVE]
 
+![verify-analysis](https://github.com/Lucaasrm6/jt2026-lucas-rodrigues/actions/workflows/verify.yml/badge.svg?branch=master)
+
 # Hackathon Jovens Talentos AI Builder 2026 — Seazone
 ## Recomendação de investimento imobiliário em Itapema (SC)
 
@@ -15,7 +17,9 @@ A base não observa ocupação nem receita realizada. Por isso, o resultado é u
 |---|---|
 | A resposta completa | [`relatorio.md`](relatorio.md) |
 | Como a análise evoluiu com IA | [`ai-log/01_ai_log.md`](ai-log/01_ai_log.md) |
-| Setup de agentes, skills e lógica de prompts | [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) |
+| Setup e lógica de prompts | [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) |
+| Configuração versionada dos agentes | [`.agents/`](.agents/) |
+| Reproduzir a análise | [`analysis/README.md`](analysis/README.md) |
 | Roteiro do vídeo | [`ROTEIRO_VIDEO.md`](ROTEIRO_VIDEO.md) |
 | Dados originais | [`data/`](data/) |
 
@@ -143,7 +147,7 @@ Cinco limitações importam mais que qualquer casa decimal do ranking:
 
 # Como trabalhei com IA
 
-O projeto começou com um setup versionado de **papéis especializados, skills e checkpoints**. A arquitetura completa está em [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md).
+O projeto começou com um setup versionado de **papéis especializados, skills e checkpoints**. A arquitetura completa está em [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) e uma versão auditável do setup está em [`.agents/`](.agents/).
 
 O uso de IA não foi linear. Alguns pontos que mudaram o trabalho:
 
@@ -165,17 +169,13 @@ python -m venv .venv
 # Windows: .venv\Scripts\activate
 # Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
-```
-
-Para conferir o gate final depois de gerar os artefatos:
-
-```bash
+python analysis/run_final_analysis.py
 python scripts/consistency_gate_final.py
 ```
 
-Os cinco CSVs oficiais já estão versionados em `data/`.
+O pipeline lê os cinco CSVs oficiais em `data/`, gera `analysis/final_results.json` e o gate bloqueia a entrega se algum dos 14 checks semânticos falhar. A mesma sequência roda automaticamente no GitHub Actions; o badge no topo mostra o estado atual.
 
-A implementação e os resultados finais da análise ficam em `analysis/` e `working/`; o relatório legível é [`relatorio.md`](relatorio.md).
+Detalhes de reprodução: [`analysis/README.md`](analysis/README.md).
 
 ---
 

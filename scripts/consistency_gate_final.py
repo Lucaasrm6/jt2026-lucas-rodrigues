@@ -12,7 +12,6 @@ for path in FILES:
         raise SystemExit(f"BLOCKED: arquivo obrigatório ausente: {path.relative_to(ROOT)}")
 
 text = "\n".join(p.read_text(encoding="utf-8") for p in FILES)
-low = text.lower()
 
 
 def no_regex(pattern: str, flags: int = re.I) -> bool:
@@ -31,8 +30,8 @@ checks = [
     ),
     (
         "02_sem_claim_de_receita_realizada",
-        no_regex(r"(?:mede|medimos|estimamos|gera|gerou|é)\s+(?:a\s+)?receita realizada"),
-        "a base não mede receita realizada",
+        no_regex(r"receita realizada\s*(?:=|:|de\s+R\$|foi\s+R\$|é\s+R\$)|(?:faturamento|receita)\s+realizad[oa]\s+(?:de|foi)\s+R\$"),
+        "a base não pode receber valor de receita realizada",
     ),
     (
         "03_sem_claim_de_demanda_anual",

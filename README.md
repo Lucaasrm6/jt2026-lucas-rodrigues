@@ -35,7 +35,6 @@ Em **4.000 reamostragens clusterizadas**, Morretes 2Q fica em primeiro em **69,8
 | Configuração versionada dos agentes | [`.agents/`](.agents/) |
 | Reproduzir a análise | [`analysis/README.md`](analysis/README.md) |
 | Buy box reproduzível de Morretes 2Q | [`analysis/buy_box_morretes_2q.csv`](analysis/buy_box_morretes_2q.csv) |
-| Roteiro de gravação do vídeo | [`roteiro-video.md`](roteiro-video.md) |
 | Visualizações | [`figures/`](figures/) |
 | Dados originais | [`data/`](data/) |
 

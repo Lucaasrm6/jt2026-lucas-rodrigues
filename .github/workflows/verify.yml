@@ -24,5 +24,11 @@ jobs:
       - name: Reproduce final analysis
         run: python analysis/run_final_analysis.py
 
+      - name: Run temporal robustness test
+        run: python analysis/temporal_proxy.py
+
+      - name: Regenerate decision figures
+        run: python analysis/generate_figures.py
+
       - name: Run final consistency gate
         run: python scripts/consistency_gate_final.py

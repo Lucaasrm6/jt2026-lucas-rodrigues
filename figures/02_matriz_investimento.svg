@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="600" viewBox="0 0 980 600">
+<title>Matriz de investimento: preço-pedido versus preço-noite exibido</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#172033}.title{font-size:24px;font-weight:700}.sub{font-size:14px;fill:#5b6576}.label{font-size:14px}.small{font-size:12px;fill:#5b6576}.value{font-size:13px;font-weight:700}</style>
+<text x="55" y="48" class="title">Matriz de investimento — candidatos finais</text>
+<text x="55" y="74" class="sub">Mais acima = maior preço-noite exibido; mais à esquerda = menor capital de aquisição.</text>
+<line x1="162.31" y1="120" x2="162.31" y2="500" stroke="#d9dee7"/><text x="162.31" y="524" class="small" text-anchor="middle">0,8</text>
+<line x1="286.92" y1="120" x2="286.92" y2="500" stroke="#d9dee7"/><text x="286.92" y="524" class="small" text-anchor="middle">1,0</text>
+<line x1="411.54" y1="120" x2="411.54" y2="500" stroke="#d9dee7"/><text x="411.54" y="524" class="small" text-anchor="middle">1,2</text>
+<line x1="536.15" y1="120" x2="536.15" y2="500" stroke="#d9dee7"/><text x="536.15" y="524" class="small" text-anchor="middle">1,4</text>
+<line x1="660.77" y1="120" x2="660.77" y2="500" stroke="#d9dee7"/><text x="660.77" y="524" class="small" text-anchor="middle">1,6</text>
+<line x1="785.38" y1="120" x2="785.38" y2="500" stroke="#d9dee7"/><text x="785.38" y="524" class="small" text-anchor="middle">1,8</text>
+<line x1="910" y1="120" x2="910" y2="500" stroke="#d9dee7"/><text x="910" y="524" class="small" text-anchor="middle">2,0</text>
+<line x1="100" y1="500" x2="910" y2="500" stroke="#d9dee7"/><text x="88" y="504" class="small" text-anchor="end">400</text>
+<line x1="100" y1="391.43" x2="910" y2="391.43" stroke="#d9dee7"/><text x="88" y="395.43" class="small" text-anchor="end">500</text>
+<line x1="100" y1="282.86" x2="910" y2="282.86" stroke="#d9dee7"/><text x="88" y="286.86" class="small" text-anchor="end">600</text>
+<line x1="100" y1="174.29" x2="910" y2="174.29" stroke="#d9dee7"/><text x="88" y="178.29" class="small" text-anchor="end">700</text>
+<text x="505" y="550" class="label" text-anchor="middle">Preço-pedido mediano (R$ milhões)</text>
+<text x="25" y="310" class="label" text-anchor="middle" transform="rotate(-90 25 310)">Preço-noite exibido mediano (R$)</text>
+<circle cx="156.08" cy="393.6" r="9" fill="#2563eb" stroke="#fff" stroke-width="2"/><text x="168.08" y="381.6" class="value">Morretes 2Q</text><text x="168.08" y="397.6" class="small">R$ 63,0/R$100 mil</text>
+<circle cx="218.38" cy="445.71" r="7" fill="#0f766e" stroke="#fff" stroke-width="2"/><text x="230.38" y="467.71" class="value">Centro 1Q</text><text x="230.38" y="483.71" class="small">R$ 50,6/R$100 mil</text>
+<circle cx="380.38" cy="304.57" r="9" fill="#b45309" stroke="#fff" stroke-width="2"/><text x="392.38" y="292.57" class="value">Centro 2Q</text><text x="392.38" y="308.57" class="small">R$ 50,4/R$100 mil</text>
+<circle cx="330.54" cy="434.86" r="9" fill="#0f766e" stroke="#fff" stroke-width="2"/><text x="342.54" y="422.86" class="value">Meia Praia 2Q</text><text x="342.54" y="438.86" class="small">R$ 43,0/R$100 mil</text>
+<circle cx="836.48" cy="174.29" r="9" fill="#0f766e" stroke="#fff" stroke-width="2"/><text x="824.48" y="162.29" class="value" text-anchor="end">Meia Praia 3Q</text><text x="824.48" y="178.29" class="small" text-anchor="end">R$ 37,2/R$100 mil</text>
+<rect x="610" y="95" width="300" height="42" rx="6" fill="#eef2f7"/><text x="625" y="112" class="small">Morretes 2Q: maior CEI entre os</text><text x="625" y="130" class="small">candidatos robustos do screen final.</text>
+<text x="910" y="585" class="small" text-anchor="end">CEI = preço-noite exibido / preço-pedido.</text>
+</svg>

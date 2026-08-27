@@ -21,6 +21,8 @@ SEGMENTS = [
 ]
 BOOTSTRAP_ITERATIONS = 4_000
 RANDOM_SEED = 2026
+CONDO_FEE_RANGE = (80.0, 5_000.0)
+YEARLY_IPTU_RANGE = (100.0, 30_000.0)
 
 
 def load(name: str) -> pd.DataFrame:
@@ -332,13 +334,18 @@ def fixed_cost_assumptions(viva: pd.DataFrame) -> dict:
     for neighborhood, bedrooms in SEGMENTS:
         label = segment_label(neighborhood, bedrooms)
         segment = viva[viva["segment"].eq(label)]
-        condo = segment.loc[segment["monthly_condo_fee"].gt(0), "monthly_condo_fee"]
-        iptu = segment.loc[segment["yearly_iptu"].gt(0), "yearly_iptu"]
+        condo = segment.loc[
+            segment["monthly_condo_fee"].between(*CONDO_FEE_RANGE),
+            "monthly_condo_fee",
+        ]
+        iptu = segment.loc[
+            segment["yearly_iptu"].between(*YEARLY_IPTU_RANGE), "yearly_iptu"
+        ]
         assumptions[label] = {
             "monthly_condo_fee_median_observed": float(condo.median()),
-            "monthly_condo_fee_positive_n": int(condo.size),
+            "monthly_condo_fee_plausible_n": int(condo.size),
             "yearly_iptu_median_observed": float(iptu.median()),
-            "yearly_iptu_positive_n": int(iptu.size),
+            "yearly_iptu_plausible_n": int(iptu.size),
             "annual_fixed_property_cost": float(12 * condo.median() + iptu.median()),
         }
     return assumptions
@@ -410,7 +417,10 @@ def build_buy_box(viva: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
         "usable_area_max_p75": float(segment["usable_area"].quantile(0.75)),
         "price_per_m2_max_median": float(segment["price_per_m2"].median()),
         "parking_spaces_min": 1,
-        "positive_condo_and_iptu_required": True,
+        "monthly_condo_fee_plausible_range": list(CONDO_FEE_RANGE),
+        "yearly_iptu_plausible_range": list(YEARLY_IPTU_RANGE),
+        "asking_price_review_below_p05": float(segment["sale_price"].quantile(0.05)),
+        "price_per_m2_review_below_p05": float(segment["price_per_m2"].quantile(0.05)),
     }
     eligible = segment[
         segment["sale_price"].le(thresholds["asking_price_max_p25"])
@@ -419,8 +429,8 @@ def build_buy_box(viva: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
         )
         & segment["price_per_m2"].le(thresholds["price_per_m2_max_median"])
         & segment["parking_spaces"].ge(thresholds["parking_spaces_min"])
-        & segment["monthly_condo_fee"].gt(0)
-        & segment["yearly_iptu"].gt(0)
+        & segment["monthly_condo_fee"].between(*CONDO_FEE_RANGE)
+        & segment["yearly_iptu"].between(*YEARLY_IPTU_RANGE)
     ].copy()
 
     # This signature is a conservative diversification rule, not proof that two ads
@@ -439,6 +449,25 @@ def build_buy_box(viva: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
     eligible = eligible.sort_values(
         ["sale_price", "price_per_m2", "monthly_condo_fee", "yearly_iptu", "listing_id"]
     ).drop_duplicates(economic_signature, keep="first")
+    eligible["diligence_flags"] = eligible.apply(
+        lambda row: ";".join(
+            flag
+            for flag, condition in [
+                (
+                    "preco_pedido_abaixo_p05",
+                    row["sale_price"] < thresholds["asking_price_review_below_p05"],
+                ),
+                (
+                    "preco_m2_abaixo_p05",
+                    row["price_per_m2"]
+                    < thresholds["price_per_m2_review_below_p05"],
+                ),
+            ]
+            if condition
+        )
+        or "sem_alerta_quantitativo",
+        axis=1,
+    )
     shortlist = eligible.head(12).copy()
     shortlist.insert(0, "screen_rank", np.arange(1, len(shortlist) + 1))
     shortlist["price_per_m2"] = shortlist["price_per_m2"].round(2)
@@ -466,6 +495,7 @@ def build_buy_box(viva: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
         "parking_spaces",
         "advertiser_name",
         "aquisition_date",
+        "diligence_flags",
         "snapshot_note",
     ]
     shortlist[columns].to_csv(BUY_BOX_OUT, index=False)
@@ -487,8 +517,8 @@ def build_buy_box(viva: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
                         thresholds["price_per_m2_max_median"]
                     )
                     & segment["parking_spaces"].ge(thresholds["parking_spaces_min"])
-                    & segment["monthly_condo_fee"].gt(0)
-                    & segment["yearly_iptu"].gt(0)
+                    & segment["monthly_condo_fee"].between(*CONDO_FEE_RANGE)
+                    & segment["yearly_iptu"].between(*YEARLY_IPTU_RANGE)
                 ]
             )
         ),
@@ -525,6 +555,12 @@ def validate_outputs(
         raise RuntimeError("Invalid net break-even frontier")
     if len(shortlist) != 12 or shortlist["listing_id"].duplicated().any():
         raise RuntimeError("Buy-box shortlist must contain 12 unique leads")
+    if not shortlist["monthly_condo_fee"].between(*CONDO_FEE_RANGE).all():
+        raise RuntimeError("Buy-box contains implausible condo fee placeholders")
+    if not shortlist["yearly_iptu"].between(*YEARLY_IPTU_RANGE).all():
+        raise RuntimeError("Buy-box contains implausible IPTU placeholders")
+    if shortlist["diligence_flags"].isna().any():
+        raise RuntimeError("Buy-box must expose quantitative diligence flags")
     if buy_box["eligible_after_diversification_dedup"] < len(shortlist):
         raise RuntimeError("Buy-box metadata is inconsistent with the shortlist")
 

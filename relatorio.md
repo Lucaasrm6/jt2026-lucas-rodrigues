@@ -237,15 +237,15 @@ Não entram financiamento, gestão, plataforma, manutenção, mobília, valoriza
 
 ### Cenário líquido mecânico — não é previsão
 
-Para uma comparação após custos, uso **55% de ocupação** e **30% de custo operacional variável**, iguais entre os segmentos. Condomínio e IPTU são medianas entre valores positivos observados no VivaReal — R$4,9 mil/ano em Morretes e cerca de R$7,0 mil nos demais — com cobertura incompleta.
+Para uma comparação após custos, uso **55% de ocupação** e **30% de custo operacional variável**, iguais entre os segmentos. Condomínio e IPTU são medianas entre valores plausíveis observados no VivaReal — condomínio de R$80–R$5.000/mês e IPTU de R$100–R$30.000/ano — com cobertura incompleta.
 
 | Segmento | Receita bruta mecânica | Custo fixo observado | Resultado líquido mecânico | Yield líquido/pedido |
 |---|---:|---:|---:|---:|
-| **Morretes 2Q** | R$100,0 mil | R$4,9 mil | **R$65,1 mil** | **8,24%** |
+| **Morretes 2Q** | R$100,0 mil | R$5,0 mil | **R$65,0 mil** | **8,23%** |
 | Centro 2Q | R$116,4 mil | R$7,0 mil | R$74,5 mil | 6,48% |
 | Meia Praia 2Q | R$92,3 mil | R$7,0 mil | R$57,7 mil | 5,39% |
 
-O resultado é antes de financiamento e imposto de renda. A grade reproduzida no código varia ocupação entre 40%/55%/70% e custos variáveis entre 20%/30%/40%. Sob 55% de ocupação no Centro e 30% de custo variável, Morretes empata perto de **44,1%** de ocupação. O cenário líquido mecânico **não é previsão**, retorno observado ou recomendação de crédito.
+O resultado é antes de financiamento e imposto de renda. A grade reproduzida no código varia ocupação entre 40%/55%/70% e custos variáveis entre 20%/30%/40%. Sob 55% de ocupação no Centro e 30% de custo variável, Morretes empata perto de **44,2%** de ocupação. O cenário líquido mecânico **não é previsão**, retorno observado ou recomendação de crédito.
 
 ### Buy box de diligência
 
@@ -255,10 +255,10 @@ A [`buy box`](analysis/buy_box_morretes_2q.csv) aplica regras derivadas da próp
 - área entre P25 e P75: **65–70 m²**;
 - preço/m² até a mediana: **R$11.551/m²**;
 - pelo menos uma vaga;
-- condomínio e IPTU positivos informados;
+- condomínio e IPTU dentro das faixas plausíveis declaradas;
 - diversificação de títulos e assinaturas econômicas repetidas.
 
-O filtro encontra 80 linhas antes da diversificação, 33 depois dela e publica os 12 primeiros leads. Os cinco primeiros são:
+O filtro encontra 78 linhas antes da diversificação, 32 depois dela e publica os 12 primeiros leads. Preços ou preços/m² abaixo do P5 recebem uma flag de diligência em vez de serem tratados silenciosamente como oportunidade. Os cinco primeiros são:
 
 | Lead | Pedido | Área | R$/m² | Condomínio | IPTU/ano |
 |---|---:|---:|---:|---:|---:|

@@ -35,6 +35,7 @@ Em **4.000 reamostragens clusterizadas**, Morretes 2Q fica em primeiro em **69,8
 | Configuração versionada dos agentes | [`.agents/`](.agents/) |
 | Reproduzir a análise | [`analysis/README.md`](analysis/README.md) |
 | Buy box reproduzível de Morretes 2Q | [`analysis/buy_box_morretes_2q.csv`](analysis/buy_box_morretes_2q.csv) |
+| Roteiro de gravação do vídeo | [`roteiro-video.md`](roteiro-video.md) |
 | Visualizações | [`figures/`](figures/) |
 | Dados originais | [`data/`](data/) |
 
@@ -172,19 +173,19 @@ O ponto estimado exige que Morretes alcance **80,0%** da ocupação do Centro. N
 
 ## Cenário líquido mecânico — não é previsão
 
-Para comparar a decisão após custos, apliquei a mesma premissa de **55% de ocupação** e **30% de custos operacionais variáveis**. Condomínio e IPTU são medianas entre valores positivos observados no VivaReal; a cobertura é incompleta. O resultado é antes de financiamento e imposto de renda.
+Para comparar a decisão após custos, apliquei a mesma premissa de **55% de ocupação** e **30% de custos operacionais variáveis**. Condomínio e IPTU são medianas entre valores plausíveis observados no VivaReal: R$80–R$5.000/mês para condomínio e R$100–R$30.000/ano para IPTU. A cobertura é incompleta. O resultado é antes de financiamento e imposto de renda.
 
 | Segmento | Bruto mecânico/ano | Condomínio + IPTU | Líquido mecânico | Yield líquido sobre preço-pedido |
 |---|---:|---:|---:|---:|
-| **Morretes 2Q** | R$100,0 mil | R$4,9 mil | **R$65,1 mil** | **8,24%** |
+| **Morretes 2Q** | R$100,0 mil | R$5,0 mil | **R$65,0 mil** | **8,23%** |
 | Centro 2Q | R$116,4 mil | R$7,0 mil | R$74,5 mil | 6,48% |
 | Meia Praia 2Q | R$92,3 mil | R$7,0 mil | R$57,7 mil | 5,39% |
 
-Esse cenário líquido mecânico **não é previsão** nem retorno observado. Na grade completa reproduzível (ocupação de 40%/55%/70% e custo variável de 20%/30%/40%), a fronteira permanece próxima do limiar bruto: se o Centro operar a 55%, Morretes empata perto de **44,1%** sob a premissa de custo variável de 30%.
+Esse cenário líquido mecânico **não é previsão** nem retorno observado. Na grade completa reproduzível (ocupação de 40%/55%/70% e custo variável de 20%/30%/40%), a fronteira permanece próxima do limiar bruto: se o Centro operar a 55%, Morretes empata perto de **44,2%** sob a premissa de custo variável de 30%.
 
 ## Buy box de diligência — captura histórica
 
-A [buy box completa](analysis/buy_box_morretes_2q.csv) transforma o segmento vencedor em leads verificáveis. O filtro exige preço-pedido até o P25 (**R$680 mil**), área entre P25 e P75 (**65–70 m²**), preço/m² até a mediana (**R$11.551/m²**), ao menos uma vaga e condomínio/IPTU positivos informados. Após diversificar títulos e assinaturas econômicas repetidas, restam 33 elegíveis; o arquivo publica 12.
+A [buy box completa](analysis/buy_box_morretes_2q.csv) transforma o segmento vencedor em leads verificáveis. O filtro exige preço-pedido até o P25 (**R$680 mil**), área entre P25 e P75 (**65–70 m²**), preço/m² até a mediana (**R$11.551/m²**), ao menos uma vaga e condomínio/IPTU nas faixas plausíveis declaradas. Após diversificar títulos e assinaturas econômicas repetidas, restam 32 elegíveis; o arquivo publica 12. Preços ou preços/m² abaixo do P5 recebem um alerta explícito para validação.
 
 | Lead da base | Pedido | Área | R$/m² | Condomínio | IPTU/ano |
 |---|---:|---:|---:|---:|---:|
@@ -232,7 +233,7 @@ Antes de comprar, eu priorizaria: ocupação interna da Seazone por bairro × qu
 
 # Como trabalhei com IA
 
-O projeto foi estruturado com **papéis especializados, skills e checkpoints**, documentados em [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) e em [`.agents/`](.agents/).
+Usei o **Antigravity** para estruturar papéis, skills, handoffs e checkpoints, e o **Claude Code** para implementar, executar e revisar a análise. O método está documentado em [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) e em [`.agents/`](.agents/).
 
 A IA foi usada em ciclos separados de execução e revisão. Alguns exemplos que alteraram materialmente a análise:
 

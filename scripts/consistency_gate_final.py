@@ -144,8 +144,11 @@ checks = [
             - 0.8
         )
         <= 0.001
-        and len(buy_box_rows) == 12,
-        "números publicados e buy box devem continuar reproduzíveis",
+        and len(buy_box_rows) == 12
+        and all(80 <= float(row["monthly_condo_fee"]) <= 5_000 for row in buy_box_rows)
+        and all(100 <= float(row["yearly_iptu"]) <= 30_000 for row in buy_box_rows)
+        and all(row.get("diligence_flags") for row in buy_box_rows),
+        "números publicados e buy box plausível devem continuar reproduzíveis",
     ),
 ]
 

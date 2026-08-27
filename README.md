@@ -7,9 +7,20 @@
 
 ## Decisão em uma frase
 
-> **Eu começaria a diligência por um apartamento de 2 quartos em Morretes.** É o segmento robusto com melhor eficiência de capital no recorte observado, mas a recomendação é **condicional e de confiança moderada**: se Morretes operar com ocupação mais de **20% inferior** ao Centro, a decisão muda para **Centro 2Q**.
+> **Eu começaria a diligência por um apartamento de 2 quartos em Morretes.** É o segmento robusto com melhor eficiência de capital no recorte observado. A recomendação é **condicional e de confiança moderada**: se Morretes operar com ocupação mais de **20% inferior** ao Centro, minha escolha muda para **Centro 2Q**.
 
-A base não observa ocupação nem receita realizada. Por isso, o resultado é uma regra de decisão auditável — não uma promessa de retorno.
+A base não observa ocupação nem receita realizada. Por isso, a decisão é apresentada com uma condição explícita de reversão, e não como uma estimativa de retorno realizado.
+
+## Respostas do desafio — resumo executivo
+
+| Pergunta | Resposta direta |
+|---|---|
+| **1. Melhor perfil de imóvel** | **Apartamento de 2 quartos para investimento.** 4+ quartos têm o maior preço-noite absoluto, mas 1–2Q são mais eficientes por capital e 2Q lidera o CEI entre os grupos comparáveis. |
+| **2. Melhor localização em receita** | **Meia Praia no agregado robusto**, com mediana de R$600/noite. Quando controlo o número de quartos, **Centro** lidera nos recortes de 2Q e 3Q. |
+| **3. Características associadas a maior preço-noite** | Mais **quartos**, **banheiros** e operação **profissional** aparecem associados a preços-noite maiores no modelo. A especificação estrutural explica ~33% da variação e a completa ~40%. |
+| **4. O que comprar hoje** | **Morretes 2Q**. Alternativa: **Centro 2Q**. Confiança moderada. A decisão se inverte se Morretes operar >20% abaixo do Centro em ocupação relativa. |
+| **Tese studio + Centro** | **Inconclusiva** por falta de observações comparáveis. |
+| **Tese 1Q + Centro** | **Parcialmente sustentada**, mas não supera Morretes 2Q no screen final. |
 
 ## Por onde começar
 
@@ -28,7 +39,9 @@ A base não observa ocupação nem receita realizada. Por isso, o resultado é u
 
 ## 1. Qual o melhor perfil de imóvel?
 
-Há duas respostas diferentes — e misturá-las levaria à decisão errada.
+> **RESPOSTA DIRETA:** para a decisão de investimento, eu escolheria **apartamentos de 2 quartos**. Se o objetivo fosse apenas maximizar preço-noite absoluto, o vencedor seria **4+ quartos**.
+
+No universo comparável de apartamentos, o resultado depende do objetivo:
 
 | Perfil | Preço-noite exibido mediano | Preço-pedido mediano | CEI |
 |---|---:|---:|---:|
@@ -37,13 +50,15 @@ Há duas respostas diferentes — e misturá-las levaria à decisão errada.
 | 3Q | R$694 | R$1,80 mi | 0,000385 |
 | 4+ | **R$1.065** | R$3,60 mi | 0,000296 |
 
-- **Maior potencial absoluto:** 4+ quartos.
+- **Maior potencial absoluto de preço-noite:** 4+ quartos.
 - **Maior eficiência de capital:** 1–2 quartos.
-- **Perfil recomendado para diligência:** 2 quartos.
+- **Minha escolha de perfil para investimento:** **2 quartos**.
 
 `CEI = preço-noite exibido mediano / preço-pedido mediano`.
 
 ## 2. Qual a melhor localização em termos do proxy operacional observável?
+
+> **RESPOSTA DIRETA:** **Meia Praia** é a melhor localização no agregado entre bairros com amostra robusta. Ao comparar imóveis do mesmo número de quartos, **Centro** apresenta preço-noite maior nos recortes de 2Q e 3Q.
 
 Entre bairros com pelo menos 30 anúncios precificados:
 
@@ -55,7 +70,7 @@ Entre bairros com pelo menos 30 anúncios precificados:
 
 Tabuleiro chega a R$610, mas com n=17 e permanece exploratório.
 
-A comparação agregada, porém, mistura perfis diferentes. Dentro de **2Q**:
+A comparação agregada mistura perfis diferentes. Dentro de **2Q**:
 
 - Centro: **R$580**;
 - Morretes: **R$498**;
@@ -63,9 +78,11 @@ A comparação agregada, porém, mistura perfis diferentes. Dentro de **2Q**:
 
 Dentro de **3Q**, Centro = R$790 e Meia Praia = R$700.
 
-**Conclusão:** Meia Praia lidera o agregado robusto, mas Centro lidera nos recortes comparáveis de 2Q/3Q. Parte da diferença agregada é composição de quartos.
+**Minha leitura:** se a pergunta for simplesmente “qual bairro tem maior preço-noite mediano entre amostras robustas?”, a resposta é **Meia Praia**. Se eu quiser comparar bairros controlando ao menos o número de quartos, o **Centro** fica à frente nos recortes de 2Q/3Q.
 
 ## 3. Quais características estão associadas a maior preço-noite?
+
+> **RESPOSTA DIRETA:** no modelo, preços-noite maiores aparecem associados principalmente a **mais quartos**, **mais banheiros** e **operação profissional**. O efeito de localização fica menor quando a comparação controla as demais características.
 
 Foi estimado um modelo OLS associativo sobre `log(preço-noite exibido mediano)` com **911 anúncios**, erros clusterizados por proprietário e Meia Praia como referência de bairro.
 
@@ -82,9 +99,11 @@ Foi estimado um modelo OLS associativo sobre `log(preço-noite exibido mediano)`
 
 A especificação estrutural explica cerca de **33%** da variação; com variáveis operacionais/host, cerca de **40%**.
 
-Esses resultados são **associativos, não causais**.
+Esses resultados são **associativos, não causais**. Em particular, “operador profissional” pode refletir seleção e outras diferenças não observadas.
 
 ## 4. O que eu compraria hoje?
+
+> **RESPOSTA DIRETA:** **Morretes 2Q** é minha recomendação primária. **Centro 2Q** é minha alternativa. A confiança é **moderada**.
 
 | Segmento | Tier | Noite | Preço-pedido | Viva n | CEI | CE90 |
 |---|---|---:|---:|---:|---:|---:|
@@ -94,17 +113,15 @@ Esses resultados são **associativos, não causais**.
 | Meia Praia 2Q | A | R$460 | R$1,07 mi | 241 | 0,000430 | 2,13% |
 | Meia Praia 3Q | A | R$700 | R$1,882 mi | 1.658 | 0,000372 | 1,84% |
 
-**Recomendação primária:** Morretes 2Q.  
-**Alternativa:** Centro 2Q.  
-**Confiança:** moderada.
+**Por que Morretes 2Q:** combina evidência Tier A, preço-pedido mediano menor e o maior CEI entre os candidatos robustos avaliados.
 
 `CE90 = preço-noite exibido × 90 × ocupação hipotética de 55% / preço-pedido`. É um **cenário mecânico de eficiência**, não ROI observado.
 
-### Condição que muda a decisão
+### Condição que muda minha decisão
 
 > **Se Morretes operar com ocupação mais de 20% inferior ao Centro, eu mudo para Centro 2Q.**
 
-A base fornecida não permite saber se esse limiar é atingido. Essa é a principal diligência antes de comprometer capital.
+A base fornecida não permite saber se esse limiar é atingido. Por isso, eu **não compraria sem validar ocupação relativa antes de comprometer capital**.
 
 ---
 
@@ -112,15 +129,17 @@ A base fornecida não permite saber se esse limiar é atingido. Essa é a princi
 
 ### Studio + Centro
 
-**Inconclusivo.** Não há observações comparáveis suficientes para validar ou rejeitar essa parte da tese. Não extrapolei 1Q para studio.
+> **RESPOSTA:** **inconclusivo**.
+
+Não há observações comparáveis suficientes para validar ou rejeitar essa parte da tese. Não extrapolei 1Q para studio.
 
 ### 1Q + Centro
 
-**Parcialmente sustentado.** É eficiente e testável, mas o lado de aquisição é fino (21 ofertas válidas) e o segmento fica abaixo de Morretes 2Q no screen final.
+> **RESPOSTA:** **parcialmente sustentado**.
 
-A leitura que sobrevive aos dados é mais ampla:
+É um segmento eficiente e testável, mas o lado de aquisição é fino (21 ofertas válidas) e fica abaixo de Morretes 2Q no screen final.
 
-> **compactos podem ser eficientes, mas Centro não aparece como vencedor exclusivo e studio não pode ser validado com esta base.**
+**Minha conclusão sobre a tese:** compactos apresentam boa eficiência, mas os dados não sustentam “Centro + studio/1Q” como uma regra geral de compra. Studio não pode ser validado e, entre os segmentos testáveis, minha escolha final permanece Morretes 2Q.
 
 ---
 
@@ -178,6 +197,6 @@ Detalhes de reprodução: [`analysis/README.md`](analysis/README.md).
 
 ---
 
-# Em uma frase
+# Minha resposta final
 
-**Morretes 2Q é o primeiro ativo que eu diligenciaria hoje; Centro 2Q é a alternativa se a ocupação real quebrar o limiar de 20%.**
+> **Eu colocaria Morretes 2Q no topo da diligência de aquisição hoje. Minha segunda opção é Centro 2Q. A recomendação só permanece enquanto Morretes não operar mais de 20% abaixo do Centro em ocupação relativa.**

@@ -11,6 +11,8 @@
 
 A base não observa ocupação nem receita realizada. Por isso, separo claramente três coisas: **preço-noite exibido**, **preço-pedido de aquisição** e **cenários hipotéticos de ocupação**. A recomendação combina esses elementos sem tratá-los como retorno realizado.
 
+Em **4.000 reamostragens clusterizadas**, Morretes 2Q fica em primeiro em **69,8%** das vezes entre os cinco candidatos finais e supera a alternativa Centro 2Q em **94,7%** das comparações pareadas. Isso mede estabilidade condicional à amostra — **não é probabilidade de superioridade real** — e não resolve ocupação ausente nem a cobertura seletiva do preço.
+
 ## Respostas do desafio — resumo executivo
 
 | Pergunta | Resposta direta |
@@ -27,10 +29,12 @@ A base não observa ocupação nem receita realizada. Por isso, separo clarament
 | Se você quer… | Abra |
 |---|---|
 | A análise completa | [`relatorio.md`](relatorio.md) |
+| O índice de evidências e correções de IA | [`ai-log/README.md`](ai-log/README.md) |
 | Prompts e respostas da sessão de IA | [`ai-log/01_ai_log.md`](ai-log/01_ai_log.md) |
 | Setup e método de trabalho com IA | [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) |
 | Configuração versionada dos agentes | [`.agents/`](.agents/) |
 | Reproduzir a análise | [`analysis/README.md`](analysis/README.md) |
+| Buy box reproduzível de Morretes 2Q | [`analysis/buy_box_morretes_2q.csv`](analysis/buy_box_morretes_2q.csv) |
 | Visualizações | [`figures/`](figures/) |
 | Dados originais | [`data/`](data/) |
 
@@ -120,6 +124,28 @@ Esses resultados são **associativos, não causais**. Em particular, “operador
 
 `CE90 = preço-noite exibido × 90 × ocupação hipotética de 55% / preço-pedido`. É um **cenário mecânico de eficiência**, não ROI observado.
 
+## Robustez estatística do ranking
+
+O teste principal usa **4.000 reamostragens** e preserva a concentração dos dados: os clusters são **proprietários** no Airbnb e **anunciantes** no VivaReal. O resultado não transforma preço exibido em receita e não preenche a ocupação que a base não contém.
+
+![Robustez da decisão por bootstrap](figures/04_robustez_decisao.svg)
+
+| Segmento | Clusters Air/Viva | CEI pontual | Intervalo bootstrap 95% |
+|---|---:|---:|---:|
+| **Morretes 2Q** | 40 / 121 | **0,000630** | **0,000499–0,000714** |
+| Centro 1Q | 20 / 16 | 0,000506 | 0,000442–0,000750 |
+| Centro 2Q | 41 / 42 | 0,000504 | 0,000314–0,000644 |
+| Meia Praia 2Q | 163 / 68 | 0,000430 | 0,000386–0,000490 |
+| Meia Praia 3Q | 275 / 192 | 0,000372 | 0,000342–0,000381 |
+
+Morretes 2Q ocupa o primeiro lugar em **69,8%** das reamostragens entre os cinco finalistas e supera Centro 2Q em **94,7%** das reamostragens pareadas. Essas proporções são **estabilidade sob reamostragem, não probabilidade de o bairro ser realmente superior**. Viés de seleção, sazonalidade, ocupação e diferenças físicas entre imóveis ficam fora do bootstrap.
+
+### Sensibilidade a anúncios repetidos e concentração
+
+Uma deduplicação de estresse por assinatura econômica reduz o VivaReal de Morretes 2Q de 1.035 para 873 linhas, mas altera sua mediana de preço-pedido em apenas **−0,1%** (R$790 mil → R$789 mil). No Centro 2Q, a mediana muda **+6,7%** (R$1,15 mi → R$1,227 mi). Morretes continua líder. Quando cada proprietário e anunciante recebe peso igual, o CEI é **0,000612** em Morretes e **0,000389** no Centro.
+
+A seleção de preço ainda importa: o `Price_AV` cobre **22,3%** dos apartamentos Morretes 2Q, contra 35,5% no Centro 2Q e 25,9% em Meia Praia 2Q. O bootstrap não corrige essa cobertura seletiva; por isso a confiança permanece moderada.
+
 ## Teste de robustez da principal incerteza
 
 A variável capaz de inverter Morretes × Centro é a **ocupação relativa**. Como `Price_AV` contém três capturas do calendário, testei se as mudanças de estado das datas traziam algum sinal útil antes de fechar a recomendação.
@@ -142,7 +168,33 @@ Ao mesmo tempo, o indicador **não mede ocupação**. O arquivo não possui flag
 
 > **Se Morretes operar com ocupação mais de 20% inferior à do Centro, eu mudo para Centro 2Q.**
 
-O teste temporal fornece evidência suplementar, mas não permite verificar esse limiar. Antes de comprometer capital, eu validaria a ocupação realizada por bairro e tipologia.
+O ponto estimado exige que Morretes alcance **80,0%** da ocupação do Centro. No bootstrap, porém, esse limiar varia de **52,6% a 104,7%**; a incerteza amostral inclui cenários em que Morretes precisaria igualar ou superar o Centro. O teste temporal fornece evidência suplementar, mas não verifica esse limiar. Antes de comprometer capital, eu validaria a ocupação realizada por bairro e tipologia.
+
+## Cenário líquido mecânico — não é previsão
+
+Para comparar a decisão após custos, apliquei a mesma premissa de **55% de ocupação** e **30% de custos operacionais variáveis**. Condomínio e IPTU são medianas entre valores positivos observados no VivaReal; a cobertura é incompleta. O resultado é antes de financiamento e imposto de renda.
+
+| Segmento | Bruto mecânico/ano | Condomínio + IPTU | Líquido mecânico | Yield líquido sobre preço-pedido |
+|---|---:|---:|---:|---:|
+| **Morretes 2Q** | R$100,0 mil | R$4,9 mil | **R$65,1 mil** | **8,24%** |
+| Centro 2Q | R$116,4 mil | R$7,0 mil | R$74,5 mil | 6,48% |
+| Meia Praia 2Q | R$92,3 mil | R$7,0 mil | R$57,7 mil | 5,39% |
+
+Esse cenário líquido mecânico **não é previsão** nem retorno observado. Na grade completa reproduzível (ocupação de 40%/55%/70% e custo variável de 20%/30%/40%), a fronteira permanece próxima do limiar bruto: se o Centro operar a 55%, Morretes empata perto de **44,1%** sob a premissa de custo variável de 30%.
+
+## Buy box de diligência — captura histórica
+
+A [buy box completa](analysis/buy_box_morretes_2q.csv) transforma o segmento vencedor em leads verificáveis. O filtro exige preço-pedido até o P25 (**R$680 mil**), área entre P25 e P75 (**65–70 m²**), preço/m² até a mediana (**R$11.551/m²**), ao menos uma vaga e condomínio/IPTU positivos informados. Após diversificar títulos e assinaturas econômicas repetidas, restam 33 elegíveis; o arquivo publica 12.
+
+| Lead da base | Pedido | Área | R$/m² | Condomínio | IPTU/ano |
+|---|---:|---:|---:|---:|---:|
+| [2666436700](https://www.vivareal.com.br/imovel/apartamento-2-quartos-morretes-bairros-itapema-com-garagem-69m2-venda-RS374000-id-2666436700/) | R$374 mil | 69 m² | R$5.420 | R$290 | R$490 |
+| [2646969738](https://www.vivareal.com.br/imovel/apartamento-2-quartos-morretes-bairros-itapema-com-garagem-70m2-venda-RS450000-id-2646969738/) | R$450 mil | 70 m² | R$6.429 | R$250 | R$100 |
+| [2688799819](https://www.vivareal.com.br/imovel/apartamento-2-quartos-morretes-bairros-itapema-com-garagem-66m2-venda-RS515000-id-2688799819/) | R$515 mil | 66 m² | R$7.803 | R$300 | R$500 |
+| [2694368874](https://www.vivareal.com.br/imovel/apartamento-2-quartos-morretes-bairros-itapema-com-garagem-70m2-venda-RS520001-id-2694368874/) | R$520 mil | 70 m² | R$7.429 | R$300 | R$1.000 |
+| [2768930018](https://www.vivareal.com.br/imovel/apartamento-2-quartos-morretes-bairros-itapema-com-garagem-70m2-venda-RS530000-id-2768930018/) | R$530 mil | 70 m² | R$7.571 | R$275 | R$480 |
+
+Isso é um **screen histórico, não recomendação de compra**. Links e atributos são da base de janeiro de 2025; disponibilidade, endereço, documentação, estado, custos e preço atual precisam ser verificados.
 
 ---
 
@@ -169,7 +221,7 @@ Não há observações comparáveis suficientes para validar ou rejeitar essa pa
 As limitações que mais afetam a decisão são:
 
 1. **ocupação realizada não observada** — é a variável que pode inverter Morretes × Centro;
-2. **cobertura seletiva de preço** — apenas 999 dos 4.441 anúncios aparecem no `Price_AV`;
+2. **cobertura seletiva de preço** — apenas 999 dos 4.441 anúncios aparecem no `Price_AV`; em Morretes 2Q, a cobertura é 22,3%;
 3. **janela Jan–Abr/2025** — não mede sazonalidade anual;
 4. **preço-pedido ≠ preço de transação**;
 5. **Airbnb e VivaReal não têm correspondência física de imóvel** — as comparações são por segmento.
@@ -188,8 +240,9 @@ A IA foi usada em ciclos separados de execução e revisão. Alguns exemplos que
 - o proxy temporal foi reconstruído por antecedência e rebaixado de possível sinal de reservas para **evidência suplementar de estado de calendário**;
 - a interpretação dos coeficientes log-lineares foi corrigida para `100 × (exp(β) − 1)` e a referência de bairro foi substituída por uma comparação mais útil;
 - o primeiro `Consistency Gate` não fazia verificações efetivas; ele foi substituído por **14 verificações programáticas** antes do fechamento.
+- a auditoria pós-entrega adicionou bootstrap por clusters, deduplicação de estresse, cenários líquidos e buy box; o gate passou a ter **20 verificações**.
 
-A sequência principal de prompts e respostas está em [`ai-log/01_ai_log.md`](ai-log/01_ai_log.md).
+A sequência principal de prompts e respostas está em [`ai-log/01_ai_log.md`](ai-log/01_ai_log.md); o mapa das intervenções e artefatos está em [`ai-log/README.md`](ai-log/README.md).
 
 ---
 
@@ -204,11 +257,12 @@ python -m venv .venv
 pip install -r requirements.txt
 python analysis/run_final_analysis.py
 python analysis/temporal_proxy.py
+python analysis/decision_robustness.py
 python analysis/generate_figures.py
 python scripts/consistency_gate_final.py
 ```
 
-A mesma sequência é executada no GitHub Actions. Os scripts geram os resultados principais, o teste temporal e as três visualizações diretamente a partir dos cinco CSVs oficiais.
+A mesma sequência é executada no GitHub Actions. Os scripts geram os resultados principais, os testes temporal/estatístico, a buy box e as quatro visualizações diretamente a partir dos cinco CSVs oficiais.
 
 Detalhes: [`analysis/README.md`](analysis/README.md).
 
@@ -216,4 +270,4 @@ Detalhes: [`analysis/README.md`](analysis/README.md).
 
 # Conclusão
 
-> **Eu colocaria Morretes 2Q no topo da diligência de aquisição e Centro 2Q como alternativa. A vantagem de Morretes vem da eficiência de capital, não do maior preço-noite. Como o sinal temporal é desfavorável e não mede ocupação, a recomendação permanece condicionada ao limiar de 20% e à validação de ocupação realizada antes da compra.**
+> **Eu colocaria Morretes 2Q no topo da diligência e Centro 2Q como alternativa. O líder fica em primeiro em 69,8% das reamostragens dos cinco finalistas e vence Centro 2Q em 94,7% das comparações pareadas, mas isso não é probabilidade de superioridade real. Como a cobertura de preço é seletiva e o sinal temporal é desfavorável, a compra permanece condicionada à validação da ocupação, dos custos e dos 12 leads da buy box.**

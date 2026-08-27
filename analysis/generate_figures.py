@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FINAL = ROOT / "analysis" / "final_results.json"
 TEMPORAL = ROOT / "analysis" / "temporal_proxy_results.json"
+ROBUSTNESS = ROOT / "analysis" / "decision_robustness_results.json"
 OUT = ROOT / "figures"
 OUT.mkdir(exist_ok=True)
 
@@ -63,6 +64,7 @@ def save(name, parts):
 
 final = json.loads(FINAL.read_text(encoding="utf-8"))
 temporal = json.loads(TEMPORAL.read_text(encoding="utf-8"))
+robustness = json.loads(ROBUSTNESS.read_text(encoding="utf-8"))
 
 # 1) Profile: absolute monetization vs capital efficiency.
 q1 = final["q1_profile"]
@@ -188,6 +190,95 @@ parts += [
     text(75, 447, "o diferencial de ocupação de >20% que inverteria a recomendação. Por isso permanece evidência suplementar.", "small"),
 ]
 save("03_proxy_temporal.svg", parts)
+
+# 4) Cluster-bootstrap uncertainty around capital efficiency.
+bootstrap = robustness["cluster_bootstrap"]
+comparison = robustness["comparisons"]
+selected = []
+for label in ["Morretes 2Q", "Centro 2Q", "Meia Praia 2Q"]:
+    row = bootstrap[label]
+    selected.append(
+        (
+            label,
+            100000 * row["cei_point"],
+            100000 * row["cei_bootstrap_95pct"][0],
+            100000 * row["cei_bootstrap_95pct"][1],
+        )
+    )
+
+width, height = 980, 560
+parts = svg_start(width, height, "Robustez da decisão: bootstrap da eficiência de capital")
+parts += [
+    text(55, 48, "Robustez da decisão — 4.000 reamostragens", "title"),
+    text(
+        55,
+        74,
+        "Intervalos percentis com clusters de proprietário (Airbnb) e anunciante (VivaReal).",
+        "sub",
+    ),
+]
+left, right, top, bottom = 245, 900, 115, 380
+xmin, xmax = 25, 75
+for value in [25, 35, 45, 55, 65, 75]:
+    px = left + (value - xmin) / (xmax - xmin) * (right - left)
+    parts += [
+        line(px, top, px, bottom),
+        text(px, bottom + 24, str(value), "small", "middle"),
+    ]
+parts.append(
+    text(
+        (left + right) / 2,
+        435,
+        "R$ de preço-noite exibido por R$100 mil de preço-pedido",
+        "label",
+        "middle",
+    )
+)
+for index, (label, point, low, high) in enumerate(selected):
+    y = 155 + index * 88
+    x_low = left + (low - xmin) / (xmax - xmin) * (right - left)
+    x_high = left + (high - xmin) / (xmax - xmin) * (right - left)
+    x_point = left + (point - xmin) / (xmax - xmin) * (right - left)
+    fill = ACCENT if label == "Morretes 2Q" else ACCENT_2
+    parts += [
+        text(220, y + 5, label, "label", "end"),
+        line(x_low, y, x_high, y, fill, 5),
+        line(x_low, y - 9, x_low, y + 9, fill, 2),
+        line(x_high, y - 9, x_high, y + 9, fill, 2),
+        circle(x_point, y, 8, fill),
+        text(
+            x_high + 10,
+            y + 5,
+            f"{point:.1f} [{low:.1f}; {high:.1f}]".replace(".", ","),
+            "small",
+        ),
+    ]
+
+win_share = 100 * comparison["morretes_cei_above_centro_share"]
+threshold = comparison["gross_break_even_occupancy_ratio_morretes_to_centro"]
+threshold_low = 100 * threshold["bootstrap_95pct"][0]
+threshold_high = 100 * threshold["bootstrap_95pct"][1]
+parts += [
+    rect(55, 465, 870, 68, LIGHT, 7),
+    text(
+        75,
+        490,
+        f"Morretes supera Centro em {win_share:.1f}% das reamostragens condicionais.".replace(
+            ".", ","
+        ),
+        "label",
+    ),
+    text(
+        75,
+        515,
+        (
+            "Limiar bruto M/C: 80,0%; intervalo bootstrap "
+            f"{threshold_low:.1f}%–{threshold_high:.1f}%. Não é probabilidade de superioridade real."
+        ).replace(".", ","),
+        "small",
+    ),
+]
+save("04_robustez_decisao.svg", parts)
 
 print("Generated figures:")
 for path in sorted(OUT.glob("*.svg")):

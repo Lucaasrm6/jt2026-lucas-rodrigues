@@ -1,17 +1,28 @@
 from __future__ import annotations
 
+import csv
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [ROOT / "README.md", ROOT / "relatorio.md"]
+ROBUSTNESS = ROOT / "analysis" / "decision_robustness_results.json"
+BUY_BOX = ROOT / "analysis" / "buy_box_morretes_2q.csv"
 
-for path in FILES:
+for path in [*FILES, ROBUSTNESS, BUY_BOX]:
     if not path.exists():
         raise SystemExit(f"BLOCKED: arquivo obrigatório ausente: {path.relative_to(ROOT)}")
 
 text = "\n".join(p.read_text(encoding="utf-8") for p in FILES)
+robustness = json.loads(ROBUSTNESS.read_text(encoding="utf-8"))
+with BUY_BOX.open(encoding="utf-8", newline="") as handle:
+    buy_box_rows = list(csv.DictReader(handle))
+bootstrap_win_share = robustness["comparisons"][
+    "morretes_cei_above_centro_share"
+]
+bootstrap_win_share_text = f"{100 * bootstrap_win_share:.1f}%".replace(".", ",")
 
 
 def no_regex(pattern: str, flags: int = re.I) -> bool:
@@ -92,6 +103,49 @@ checks = [
         "14_sem_coeficientes_antigos_c4",
         no_regex(r"\+17[,.]4\s*%|\+14[,.]0\s*%|\+20[,.]7\s*%|centro\s*\+\s*78\s*%"),
         "não deixar interpretações antigas da regressão no entregável final",
+    ),
+    (
+        "15_bootstrap_clusterizado_documentado",
+        has_regex(r"4\.000\s+reamostrag")
+        and has_regex(r"proprietário[^\n]{0,100}anunciante|anunciante[^\n]{0,100}proprietário"),
+        "bootstrap deve declarar iterações e unidades de cluster",
+    ),
+    (
+        "16_bootstrap_nao_e_probabilidade_real",
+        bootstrap_win_share_text in text
+        and has_regex(r"não (?:é|representa) probabilidade"),
+        "estabilidade condicional não deve virar probabilidade de superioridade real",
+    ),
+    (
+        "17_cobertura_seletiva_quantificada",
+        has_regex(r"22[,.]3\s*%") and has_regex(r"cobertura[^\n]{0,120}(?:seletiv|Price_AV)"),
+        "risco de seleção do Price_AV deve ser quantificado",
+    ),
+    (
+        "18_cenario_liquido_nao_e_previsao",
+        has_regex(r"cenário líquido mecânico")
+        and has_regex(r"antes de financiamento")
+        and has_regex(r"não é previsão"),
+        "cenário líquido deve manter premissas e limites explícitos",
+    ),
+    (
+        "19_buy_box_e_apenas_screen_historico",
+        has_regex(r"buy box")
+        and has_regex(r"(?:janeiro|jan)[^\n]{0,20}2025")
+        and has_regex(r"(?:disponibilidade|dados)[^\n]{0,100}(?:verific|confirm)"),
+        "buy box deve ser tratada como screen histórico sujeito a verificação",
+    ),
+    (
+        "20_resultados_de_robustez_machine_checkable",
+        0.90 <= bootstrap_win_share <= 1.0
+        and abs(
+            robustness["comparisons"]
+            ["gross_break_even_occupancy_ratio_morretes_to_centro"]["point"]
+            - 0.8
+        )
+        <= 0.001
+        and len(buy_box_rows) == 12,
+        "números publicados e buy box devem continuar reproduzíveis",
     ),
 ]
 

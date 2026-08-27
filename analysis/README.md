@@ -11,6 +11,7 @@ python -m venv .venv
 pip install -r requirements.txt
 python analysis/run_final_analysis.py
 python analysis/temporal_proxy.py
+python analysis/decision_robustness.py
 python analysis/generate_figures.py
 python scripts/consistency_gate_final.py
 ```
@@ -20,9 +21,12 @@ Os comandos geram:
 ```text
 analysis/final_results.json
 analysis/temporal_proxy_results.json
+analysis/decision_robustness_results.json
+analysis/buy_box_morretes_2q.csv
 figures/01_perfil_monetizacao_eficiencia.svg
 figures/02_matriz_investimento.svg
 figures/03_proxy_temporal.svg
+figures/04_robustez_decisao.svg
 ```
 
 O último comando audita a consistência semântica dos entregáveis finais (`README.md` e `relatorio.md`) e termina com código diferente de zero se algum dos 14 checks falhar.
@@ -35,7 +39,12 @@ O último comando audita a consistência semântica dos entregáveis finais (`RE
 - Q4: tabela dos segmentos candidatos, CEI e CE90;
 - condição de reversão Morretes 2Q × Centro 2Q;
 - teste temporal de mudança de estado do calendário, padronizado por lead-time;
-- três visualizações usadas no README e no relatório.
+- bootstrap com 4.000 reamostragens clusterizadas por proprietário e anunciante;
+- sensibilidade à deduplicação econômica e à equalização de clusters;
+- cobertura seletiva do `Price_AV` por segmento;
+- cenários líquidos mecânicos e fronteira de ocupação Morretes × Centro;
+- buy box reproduzível de leads de Morretes 2Q;
+- quatro visualizações usadas no README e no relatório.
 
 ## Definições
 
@@ -44,6 +53,18 @@ O último comando audita a consistência semântica dos entregáveis finais (`RE
 `CE90 = CEI × 90 × 0,55`
 
 O CE90 usa ocupação **hipotética**, é pré-custos e não representa ROI observado.
+
+### Bootstrap e condição de reversão
+
+O bootstrap reamostra os clusters observados de **proprietário** no Airbnb e de **anunciante** no VivaReal. Seu intervalo percentil mede a estabilidade amostral do CEI condicionada à base observada; não corrige seleção do `Price_AV`, sazonalidade, duplicidade física não identificada ou ocupação ausente. A proporção de reamostragens em que um segmento lidera não deve ser lida como probabilidade de superioridade real.
+
+A fronteira líquida usa medianas positivas observadas de condomínio e IPTU, cuja cobertura é incompleta, e uma grade explícita de ocupação e custo operacional variável. É um teste mecânico antes de financiamento e imposto de renda, não previsão de resultado.
+
+### Buy box
+
+O arquivo `analysis/buy_box_morretes_2q.csv` é um **screen de leads**, não uma lista de compras. Os filtros são derivados da distribuição de Morretes 2Q: preço-pedido até o P25, área entre P25 e P75, preço/m² até a mediana, ao menos uma vaga e condomínio/IPTU positivos informados. Uma regra de diversificação reduz títulos e assinaturas econômicas repetidas.
+
+Os links e atributos vêm da captura de janeiro de 2025. Disponibilidade, endereço, documentação, estado do imóvel, custos e preço atual precisam ser verificados antes de qualquer decisão.
 
 ### Proxy temporal
 

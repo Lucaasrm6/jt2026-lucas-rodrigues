@@ -2,18 +2,34 @@
 <title>Perfil: monetização absoluta versus eficiência de capital</title>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <style>text{font-family:Arial,Helvetica,sans-serif;fill:#172033}.title{font-size:24px;font-weight:700}.sub{font-size:14px;fill:#5b6576}.label{font-size:14px}.small{font-size:12px;fill:#5b6576}.value{font-size:13px;font-weight:700}</style>
-<text x="55" y="48" class="title">Perfil: monetização absoluta × eficiência de capital</text>
-<text x="55" y="74" class="sub">O perfil que cobra mais por noite não é o que usa melhor o capital de aquisição.</text>
-<text x="55" y="120" class="label">Preço-noite exibido mediano (R$)</text>
-<text x="140" y="166" class="label" text-anchor="end">1Q</text><rect x="165" y="145" width="293.41" height="30" rx="4" fill="#0f766e"/><text x="468.41" y="166" class="value">R$ 434</text>
-<text x="140" y="220" class="label" text-anchor="end">2Q</text><rect x="165" y="199" width="324.51" height="30" rx="4" fill="#0f766e"/><text x="499.51" y="220" class="value">R$ 480</text>
-<text x="140" y="274" class="label" text-anchor="end">3Q</text><rect x="165" y="253" width="469.18" height="30" rx="4" fill="#0f766e"/><text x="644.18" y="274" class="value">R$ 694</text>
-<text x="140" y="328" class="label" text-anchor="end">4+</text><rect x="165" y="307" width="720" height="30" rx="4" fill="#2563eb"/><text x="895" y="328" class="value">R$ 1.065</text>
-<line x1="55" y1="375" x2="925" y2="375" stroke="#d9dee7"/>
-<text x="55" y="412" class="label">Eficiência de capital — R$ de preço-noite por R$100 mil de preço-pedido</text>
-<text x="140" y="452" class="label" text-anchor="end">1Q</text><rect x="165" y="435" width="703.08" height="22" rx="4" fill="#0f766e"/><text x="878.08" y="452" class="value">R$ 57,9</text>
-<text x="140" y="484" class="label" text-anchor="end">2Q</text><rect x="165" y="467" width="720" height="22" rx="4" fill="#2563eb"/><text x="895" y="484" class="value">R$ 59,3</text>
-<text x="140" y="516" class="label" text-anchor="end">3Q</text><rect x="165" y="499" width="468.45" height="22" rx="4" fill="#0f766e"/><text x="643.45" y="516" class="value">R$ 38,6</text>
-<text x="140" y="548" class="label" text-anchor="end">4+</text><rect x="165" y="531" width="359.44" height="22" rx="4" fill="#0f766e"/><text x="534.44" y="548" class="value">R$ 29,6</text>
+<text x="55" y="48" class="title" text-anchor="start">Perfil: monetização absoluta × eficiência de capital</text>
+<text x="55" y="74" class="sub" text-anchor="start">O perfil que cobra mais por noite não é o que usa melhor o capital de aquisição.</text>
+<text x="55" y="120" class="label" text-anchor="start">Preço-noite exibido mediano (R$)</text>
+<text x="140" y="166" class="label" text-anchor="end">1Q</text>
+<rect x="165" y="145" width="293.07042253521126" height="30" rx="4" fill="#0f766e"/>
+<text x="468.07042253521126" y="166" class="value" text-anchor="start">R$ 434</text>
+<text x="140" y="220" class="label" text-anchor="end">2Q</text>
+<rect x="165" y="199" width="324.50704225352115" height="30" rx="4" fill="#0f766e"/>
+<text x="499.50704225352115" y="220" class="value" text-anchor="start">R$ 480</text>
+<text x="140" y="274" class="label" text-anchor="end">3Q</text>
+<rect x="165" y="253" width="468.84507042253523" height="30" rx="4" fill="#0f766e"/>
+<text x="643.8450704225352" y="274" class="value" text-anchor="start">R$ 694</text>
+<text x="140" y="328" class="label" text-anchor="end">4+</text>
+<rect x="165" y="307" width="720.0" height="30" rx="4" fill="#2563eb"/>
+<text x="895.0" y="328" class="value" text-anchor="start">R$ 1.065</text>
+<line x1="55" y1="375" x2="925" y2="375" stroke="#d9dee7" stroke-width="1"/>
+<text x="55" y="412" class="label" text-anchor="start">Eficiência de capital — R$ de preço-noite por R$100 mil de preço-pedido</text>
+<text x="140" y="452" class="label" text-anchor="end">1Q</text>
+<rect x="165" y="435" width="702.3567" height="22" rx="4" fill="#0f766e"/>
+<text x="877.3567" y="452" class="value" text-anchor="start">R$ 57,8</text>
+<text x="140" y="484" class="label" text-anchor="end">2Q</text>
+<rect x="165" y="467" width="720.0" height="22" rx="4" fill="#2563eb"/>
+<text x="895.0" y="484" class="value" text-anchor="start">R$ 59,3</text>
+<text x="140" y="516" class="label" text-anchor="end">3Q</text>
+<rect x="165" y="499" width="468.1702916666667" height="22" rx="4" fill="#0f766e"/>
+<text x="643.1702916666667" y="516" class="value" text-anchor="start">R$ 38,5</text>
+<text x="140" y="548" class="label" text-anchor="end">4+</text>
+<rect x="165" y="531" width="359.481875" height="22" rx="4" fill="#0f766e"/>
+<text x="534.481875" y="548" class="value" text-anchor="start">R$ 29,6</text>
 <text x="925" y="568" class="small" text-anchor="end">Fonte: Airbnb Price_AV + VivaReal; preço exibido e preço-pedido, não realizados.</text>
 </svg>

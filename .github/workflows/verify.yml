@@ -3,6 +3,8 @@ name: verify-analysis
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -26,6 +28,9 @@ jobs:
 
       - name: Run temporal robustness test
         run: python analysis/temporal_proxy.py
+
+      - name: Run decision robustness and buy-box screen
+        run: python analysis/decision_robustness.py
 
       - name: Regenerate decision figures
         run: python analysis/generate_figures.py

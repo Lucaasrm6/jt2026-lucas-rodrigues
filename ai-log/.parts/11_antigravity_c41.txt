@@ -1,0 +1,70 @@
+# C4.1 FINAL PATCH — Resultado
+
+> Auditoria independente pós-C4. Patch cirúrgico, não ciclo novo.
+
+## A. Interpretações de coeficientes Q3 corrigidas
+
+| Variável | β | **ANTES** (β×100) | **DEPOIS** (exp(β)−1) |
+|---|---|---|---|
+| quartos | 0,174 | ~~+17,4%~~ | **+19,0%** |
+| banheiros | 0,140 | ~~+14,0%~~ | **+15,0%** |
+| profissional | 0,207 | ~~+20,7%~~ | **+22,9%** |
+| log(reviews) | −0,088 | ~~−8,8%~~ | **−8,4%** |
+
+## B. Contrastes pairwise de bairro (ref = Meia Praia, n=607)
+
+| Comparação | Δβ (Spec 2) | % associação | Significância |
+|---|---|---|---|
+| **Centro vs Meia Praia** | +0,054 | +5,6% | n.s. |
+| **Centro vs Morretes** | +0,105 | +11,1% | sig. |
+| **Meia Praia vs Morretes** | +0,051 | +5,3% | n.s. |
+
+> **Antes:** "Centro +78% vs referência" (Alto São Bento, n=3).
+> **Depois:** Centro vs Meia Praia é apenas +5,6% e **não significativo** na spec 2.
+
+## C. Linguagem Q1/Q2 corrigida
+
+- **Q1:** ~~"monotonicamente crescente"~~ → "4+ quartos tem o maior potencial; studio e 1Q empatados (~R$434-435)"
+- **Q2:** ~~"Meia Praia domina"~~ → "Entre bairros com n≥30, Meia Praia lidera. Tabuleiro (n=17) é exploratório."
+
+## D. Claims não suportados removidos
+
+- ~~"Morretes encher 20% menos é plausível"~~ → "Os dados não permitem saber se o limiar é alcançado"
+- ~~"Centro tem procura plausível ano todo"~~ → Apenas sob FUTURE DILIGENCE HYPOTHESIS
+- ~~"Quartos explicam a maior parte da variação"~~ → "A especificação estrutural explica ~33%"
+
+## E. Consistency Gate programático
+
+**Método:** Scan regex de [`checkpoint4-sintese.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/checkpoint4-sintese.md) contra 14 padrões proibidos.
+
+**Script:** [`consistency_gate_final.py`](file:///C:/Users/pc/.gemini/antigravity/brain/6da50cc3-8cfe-479c-8504-3eb18e2ccf75/scratch/consistency_gate_final.py)
+
+## F. Resultado do Gate
+
+**PASS — 14/14** ✅
+
+## G. Recomendação primária mudou?
+
+**NÃO.** Morretes 2q (condicional, confiança moderada) permanece. Nenhuma correção
+alterou o ranking de CEI nem os limiares de reversão.
+
+## H. Números seguros para vídeo (atualizados)
+
+1. Morretes 2Q preço-noite exibido mediano: **R$ 498**
+2. Morretes 2Q preço-pedido mediano: **R$ 790k**
+3. CE90 cenário 90 dias a 55% hipotéticos: **3,1% do preço**
+4. Limiar de reversão: **>20% menos ocupação inverte** (dados não permitem saber se é alcançado)
+5. Tese studio+Centro: **INCONCLUSIVO** (zero obs.)
+6. Especificação estrutural explica **~33%** da variação; +operacional → **~40%**
+7. Os dois eixos **DISCORDAM**: maior receita (4+q) ≠ maior eficiência (1-2q)
+
+## Ficheiros produzidos/alterados
+
+| Ficheiro | Ação |
+|---|---|
+| [`checkpoint4-sintese.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/checkpoint4-sintese.md) | Secções Q1/Q2/Q3/§13/§14/§18/§19/§20 corrigidas |
+| [`decision_engine_c4_patch.py`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision_engine_c4_patch.py) | NOVO — patch engine |
+| [`decision_engine_c4_patch_results.json`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision_engine_c4_patch_results.json) | NOVO — resultados do patch |
+| [`consistency_gate_final.json`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/consistency_gate_final.json) | NOVO — resultado do gate programático |
+| [`decision-log.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision-log.md) | +8 entradas (#33–40) |
+| [`ai-collaboration-index.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/ai-collaboration-index.md) | +4 entradas (C4.1 audit) |

@@ -20,7 +20,6 @@ A base não observa ocupação nem receita realizada. Por isso, o resultado é u
 | Setup e lógica de prompts | [`ai-log/02_setup_metodo.md`](ai-log/02_setup_metodo.md) |
 | Configuração versionada dos agentes | [`.agents/`](.agents/) |
 | Reproduzir a análise | [`analysis/README.md`](analysis/README.md) |
-| Roteiro do vídeo | [`ROTEIRO_VIDEO.md`](ROTEIRO_VIDEO.md) |
 | Dados originais | [`data/`](data/) |
 
 ---

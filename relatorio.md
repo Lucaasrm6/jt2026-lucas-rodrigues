@@ -2,21 +2,23 @@
 
 ## Resumo executivo
 
-> **Minha recomendação:** começar a diligência por **apartamentos de 2 quartos em Morretes**.  
+> **Recomendação primária:** **Morretes 2Q**.  
 > **Alternativa:** **Centro 2Q**.  
 > **Confiança:** moderada.  
-> **Condição de reversão:** se Morretes operar com ocupação mais de **20% inferior** ao Centro, minha escolha muda para Centro 2Q.
+> **Condição de reversão:** se Morretes operar com ocupação mais de **20% inferior** à do Centro, a escolha muda para Centro 2Q.
 
 Morretes 2Q combina preço-noite exibido mediano de **R$498**, preço-pedido mediano de **R$790 mil**, evidência Tier A e o maior índice de eficiência de capital entre os segmentos robustos avaliados.
 
-A principal incerteza foi testada até o limite permitido pelo `Price_AV`: as transições de calendário por lead-time **não favorecem Morretes**, mas também não identificam reservas ou ocupação. Esse resultado aumenta a cautela e sustenta a classificação de confiança moderada, sem fornecer base semântica para substituir a condição de reversão.
+A base não observa receita nem ocupação realizadas. Por isso, a recomendação separa explicitamente o que é observado — preço-noite exibido e preço-pedido — do que é hipotético, como cenários de ocupação.
+
+A principal incerteza foi testada até o limite permitido pelo `Price_AV`: as transições de calendário por antecedência **não favorecem Morretes**, mas também não identificam reservas ou ocupação. Esse sinal adverso entra na avaliação de risco e ajuda a justificar a confiança moderada.
 
 ## Respostas diretas às quatro perguntas
 
 | Pergunta | Minha resposta |
 |---|---|
-| **1. Melhor perfil** | **Apartamento de 2 quartos para investimento.** 4+ quartos têm maior preço-noite absoluto; 1–2Q têm maior eficiência de capital. |
-| **2. Melhor localização em receita** | **Meia Praia no agregado robusto**. Quando comparo perfis equivalentes por quartos, **Centro** lidera em 2Q/3Q. |
+| **1. Melhor perfil** | No universo comparável de **apartamentos**, eu escolheria **2 quartos para investimento**. 4+ quartos têm maior preço-noite absoluto; 1–2Q têm maior eficiência de capital. |
+| **2. Melhor localização em receita** | A base **não mede receita realizada**. Usando preço-noite exibido como proxy operacional, **Meia Praia lidera no agregado robusto**. Quando comparo imóveis do mesmo número de quartos, **Centro** lidera em 2Q/3Q. |
 | **3. Características associadas a maior preço-noite** | Mais **quartos**, **banheiros** e operação **profissional** aparecem associados a valores maiores no modelo; estrutural R²≈33%, completo R²≈40%. |
 | **4. O que comprar hoje** | **Morretes 2Q**, com Centro 2Q como alternativa e condição explícita de reversão. |
 
@@ -25,6 +27,8 @@ A principal incerteza foi testada até o limite permitido pelo `Price_AV`: as tr
 ## 1. Melhor perfil de imóvel
 
 > **RESPOSTA DIRETA:** para investimento, eu escolheria **2 quartos**. Para maximizar apenas preço-noite absoluto, o vencedor é **4+ quartos**.
+
+Para manter comparabilidade entre Airbnb e VivaReal, a análise de investimento foi restrita a **apartamentos**.
 
 ![Perfil: monetização absoluta versus eficiência de capital](figures/01_perfil_monetizacao_eficiencia.svg)
 
@@ -47,13 +51,13 @@ A principal incerteza foi testada até o limite permitido pelo `Price_AV`: as tr
 | 3Q | R$694 | R$1,80 mi | 0,000385 |
 | 4+ | R$1.065 | R$3,60 mi | 0,000296 |
 
-O custo de aquisição dos imóveis maiores cresce mais rápido que o preço-noite. Portanto, a resposta de monetização absoluta (**4+ quartos**) é diferente da resposta de alocação eficiente de capital (**1–2 quartos; 2Q na liderança do CEI**).
+O custo de aquisição dos imóveis maiores cresce mais rápido que o preço-noite. Portanto, **monetização absoluta e eficiência de capital levam a respostas diferentes**: 4+ quartos lideram a primeira; 1–2 quartos, a segunda, com 2Q no maior CEI.
 
 ---
 
 ## 2. Melhor localização
 
-> **RESPOSTA DIRETA:** **Meia Praia** é a melhor localização no agregado robusto. Em comparações por número de quartos, **Centro** lidera os recortes de 2Q e 3Q.
+> **RESPOSTA DIRETA:** como a base não observa receita realizada, uso **preço-noite exibido mediano** como proxy operacional. Nesse critério, **Meia Praia** lidera no agregado robusto. Em comparações por número de quartos, **Centro** lidera os recortes de 2Q e 3Q.
 
 | Bairro | n | Preço-noite mediano |
 |---|---:|---:|
@@ -61,17 +65,17 @@ O custo de aquisição dos imóveis maiores cresce mais rápido que o preço-noi
 | Centro | 193 | R$587 |
 | Morretes | 68 | R$500 |
 
-Tabuleiro tem estimativa pontual de R$610, mas n=17 e permanece exploratório.
+Tabuleiro apresenta R$610, mas n=17 e permanece exploratório.
 
 A comparação agregada esconde composição. Dentro de **2Q**, Centro = R$580, Morretes = R$498 e Meia Praia = R$460. Dentro de **3Q**, Centro = R$790 e Meia Praia = R$700.
 
-A conclusão é deliberadamente dupla: **Meia Praia responde à pergunta agregada**, enquanto o controle por número de quartos mostra que o **Centro tem maior preço-noite em tipologias comparáveis de 2Q/3Q**.
+A conclusão é, portanto, dupla: **Meia Praia responde à comparação agregada**, enquanto o controle por número de quartos mostra que o **Centro apresenta maior preço-noite em tipologias comparáveis de 2Q/3Q**.
 
 ---
 
 ## 3. Características associadas a maior preço-noite
 
-> **RESPOSTA DIRETA:** no modelo, os sinais positivos mais relevantes para preço-noite são **mais quartos**, **mais banheiros** e **operação profissional**. A diferença de bairro fica menor depois de controlar as características observadas.
+> **RESPOSTA DIRETA:** no modelo, os sinais positivos mais relevantes são **mais quartos**, **mais banheiros** e **operação profissional**. A diferença entre bairros diminui depois de controlar as características observadas.
 
 Modelo OLS associativo sobre `log(preço-noite exibido mediano)`, com **911 anúncios** e erros clusterizados por proprietário. Meia Praia é a referência de bairro.
 
@@ -86,15 +90,15 @@ Modelo OLS associativo sobre `log(preço-noite exibido mediano)`, com **911 anú
 | log(reviews+1) | −8,4% |
 | Centro vs Meia Praia | +5,6%, n.s. |
 
-A especificação estrutural explica cerca de **33%** da variação; acrescentar variáveis operacionais/host leva o R² a cerca de **40%**.
+A especificação estrutural explica cerca de **33%** da variação; acrescentar variáveis operacionais e de host leva o R² a cerca de **40%**.
 
-Os coeficientes são **associações, não efeitos causais**. Em particular, variáveis de host/operação podem refletir seleção e diferenças não observadas.
+Os coeficientes são **associações, não efeitos causais**. Variáveis de host/operação podem refletir seleção e outras diferenças não observadas.
 
 ---
 
 ## 4. O que comprar hoje
 
-> **RESPOSTA DIRETA:** **Morretes 2Q** é minha recomendação primária. **Centro 2Q** é a alternativa. Eu classifico a confiança como **moderada**.
+> **RESPOSTA DIRETA:** **Morretes 2Q** é minha recomendação primária. **Centro 2Q** é a alternativa. A confiança é **moderada**.
 
 ![Matriz de investimento](figures/02_matriz_investimento.svg)
 
@@ -106,15 +110,17 @@ Os coeficientes são **associações, não efeitos causais**. Em particular, var
 | Meia Praia 2Q | A | R$460 | R$1,07 mi | 241 | 0,000430 | 2,13% |
 | Meia Praia 3Q | A | R$700 | R$1,882 mi | 1.658 | 0,000372 | 1,84% |
 
-`CEI = preço-noite / preço-pedido`. O CE90 é o mesmo ranking multiplicado por 90 dias e ocupação hipotética de 55%; não é retorno observado.
+`CEI = preço-noite / preço-pedido`. O CE90 multiplica o mesmo índice por 90 dias e ocupação hipotética de 55%; **não é retorno observado**.
+
+**Tier é uma classificação de robustez da amostra:** A exige pelo menos 30 observações em cada lado da comparação; B, pelo menos 15; abaixo disso o segmento é exploratório.
 
 ### Por que Morretes 2Q
 
 1. maior CEI entre os candidatos robustos avaliados;
 2. Tier A, com 51 anúncios Airbnb precificados e 1.035 ofertas válidas no lado de aquisição;
 3. preço-pedido mediano de R$790 mil, abaixo dos principais comparáveis;
-4. o ranking sobreviveu às correções de Tier, operador, tamanho, validade e modelagem;
-5. a principal evidência adversa — o proxy temporal — foi preservada e incorporada à confiança, em vez de descartada por não favorecer o líder.
+4. o ranking permaneceu estável após correções de Tier, operador, tamanho, validade e modelagem;
+5. o sinal temporal adverso foi incorporado à confiança, em vez de ser descartado por não favorecer o líder.
 
 ### Condição de reversão
 
@@ -125,7 +131,7 @@ Os coeficientes são **associações, não efeitos causais**. Em particular, var
 
 ## Teste temporal da hipótese de ocupação
 
-A recomendação depende do diferencial de ocupação. O `Price_AV` não possui flag de reserva, mas contém capturas do calendário em 06, 07 e 20 de janeiro. Isso permitiu construir um **teste suplementar de mudança de estado**, sem chamar o resultado de booking ou ocupação.
+A recomendação depende do diferencial de ocupação. O `Price_AV` não possui flag de reserva, mas contém capturas do calendário em 06, 07 e 20 de janeiro. Isso permite construir um **teste suplementar de mudança de estado**, sem interpretar o resultado como reserva ou ocupação realizada.
 
 ### Construção
 
@@ -134,11 +140,11 @@ Para cada par de capturas:
 1. mantenho somente anúncios presentes nas duas capturas;
 2. uso apenas o horizonte de datas de estadia comum às duas capturas;
 3. classifico cada data como presente→ausente ou ausente→presente;
-4. separo por lead-time em faixas definidas (`0–14`, `15–30`, `31–60`, `61–90` dias);
+4. separo por faixas de antecedência (`0–14`, `15–30`, `31–60`, `61–90` dias);
 5. calculo a transição líquida `(presente→ausente − ausente→presente) / presente_inicial`;
-6. padronizo os segmentos com os mesmos pesos de lead-time.
+6. padronizo os segmentos com os mesmos pesos de antecedência.
 
-O par 06→07, de apenas um dia, possui movimento pequeno e não é usado como evidência principal. Para a apresentação pública, uso **07→20 jan (13 dias)** e não trato 06→20 como uma confirmação independente, porque as duas janelas longas compartilham a captura final de 20/01.
+O par 06→07, de apenas um dia, possui movimento pequeno e não é usado como evidência principal. Para a apresentação pública, uso **07→20 jan (13 dias)** e não trato 06→20 como confirmação independente, porque as duas janelas longas compartilham a captura final de 20/01.
 
 ![Teste de robustez temporal](figures/03_proxy_temporal.svg)
 
@@ -150,13 +156,13 @@ O par 06→07, de apenas um dia, possui movimento pequeno e não é usado como e
 
 ### Interpretação para a decisão
 
-**O teste inclina contra Morretes.** Morretes 2Q tem menor transição líquida de calendário que Centro 2Q e Meia Praia 2Q no intervalo informativo.
+**O sinal temporal é desfavorável a Morretes.** Morretes 2Q apresenta menor transição líquida de calendário que Centro 2Q e Meia Praia 2Q no intervalo informativo.
 
-Isso não foi ignorado. Pelo contrário, entra diretamente na classificação de **confiança moderada** e reforça a necessidade de validar ocupação antes da compra.
+Esse resultado entra diretamente na classificação de **confiança moderada** e reforça a necessidade de validar ocupação antes da compra.
 
-O limite do teste é semântico: uma data desaparecer do arquivo não demonstra que foi reservada, e uma data reaparecer mostra que o estado do calendário não é uma transição limpa de “disponível para vendido”. Consequentemente, **7,1%, 11,3% e 12,2% não são taxas de ocupação** e não podem ser comparadas diretamente ao limiar de reversão de 20%.
+O limite do teste é semântico: uma data desaparecer do arquivo não demonstra que foi reservada, e o reaparecimento de datas mostra que o calendário não segue uma transição limpa de “disponível para reservado”. Consequentemente, **7,1%, 11,3% e 12,2% não são taxas de ocupação** e não podem ser comparadas diretamente ao limiar de reversão de 20%.
 
-Assim, o proxy responde à pergunta “há um sinal temporal que favorece ou contradiz o líder?” — **há um sinal fraco que contradiz**. Ele não responde “qual é o diferencial de ocupação realizado entre Morretes e Centro?”. Essa variável permanece não observada.
+O teste responde, portanto, a uma pergunta restrita: **há um sinal temporal que favorece ou contradiz o líder?** Há um sinal fraco que contradiz. Ele não informa o diferencial de ocupação realizado entre Morretes e Centro.
 
 ---
 
@@ -166,15 +172,15 @@ Assim, o proxy responde à pergunta “há um sinal temporal que favorece ou con
 
 > **RESPOSTA:** **inconclusivo**.
 
-Não há studio comparável com preço no Airbnb nem oferta válida equivalente no VivaReal no recorte necessário. Não extrapolo 1Q para studio.
+Não há studio comparável com preço no Airbnb nem oferta válida equivalente no VivaReal no recorte necessário. Não extrapolo o resultado de 1Q para studio.
 
 ### 1Q + Centro
 
 > **RESPOSTA:** **parcialmente sustentado**.
 
-Centro 1Q é eficiente e testável, mas tem apenas 21 ofertas válidas no lado de aquisição e fica atrás de Morretes 2Q no screen.
+Centro 1Q é eficiente e testável, mas tem apenas 21 ofertas válidas no lado de aquisição e fica atrás de Morretes 2Q na comparação final de investimento.
 
-**Minha posição:** a base sustenta que compactos podem ter boa eficiência, mas não sustenta Centro + studio/1Q como regra geral de compra. Para a decisão atual, continuo preferindo **Morretes 2Q**, sob a condição explícita de ocupação relativa.
+**Minha posição:** a base sustenta que compactos podem ter boa eficiência, mas não sustenta Centro + studio/1Q como regra geral de compra. Para a decisão atual, continuo preferindo **Morretes 2Q**, condicionado à validação da ocupação relativa.
 
 ---
 
@@ -197,8 +203,8 @@ Não entram financiamento, gestão, plataforma, manutenção, mobília, valoriza
 1. **Ocupação realizada não observada** — é a variável que pode inverter Morretes × Centro.
 2. **Cobertura seletiva de preço** — 999/4.441 anúncios aparecem no `Price_AV`.
 3. **Janela Jan–Abr** — não mede sazonalidade anual.
-4. **Preço-pedido ≠ transação.**
-5. **Airbnb e VivaReal não têm match físico de imóvel** — comparações são por segmento.
+4. **Preço-pedido ≠ preço de transação.**
+5. **Airbnb e VivaReal não têm correspondência física de imóvel** — as comparações são por segmento.
 
 ## Diligência antes de comprometer capital
 
@@ -215,17 +221,17 @@ Não entram financiamento, gestão, plataforma, manutenção, mobília, valoriza
 Durante a análise, conclusões e implementações foram revisadas antes do fechamento:
 
 - regra de Tier `OR → AND`;
-- reconstrução do proxy temporal por lead-time e limitação explícita de sua semântica;
-- linguagem de padronização por operador;
-- retirada de claim causal de composição/tamanho;
+- reconstrução do proxy temporal por antecedência e limitação explícita de sua interpretação;
+- correção da linguagem de padronização por operador;
+- retirada de afirmação causal sobre composição/tamanho;
 - transformação correta `exp(β)-1` na regressão log-linear;
-- referência de bairro substituída por contraste útil;
-- Consistency Gate substituído por 14 checks programáticos reais.
+- referência de bairro substituída por comparação mais informativa;
+- Consistency Gate substituído por **14 verificações programáticas**.
 
 O histórico de prompts, respostas e correções está em [`ai-log/01_ai_log.md`](ai-log/01_ai_log.md).
 
 ---
 
-## Minha resposta final
+## Conclusão
 
-> **Eu colocaria Morretes 2Q no topo da diligência de aquisição. Centro 2Q é minha alternativa. O teste temporal joga contra Morretes, mas não mede ocupação; por isso, a recomendação permanece condicional ao limiar de 20% e exige validação de ocupação realizada antes da compra.**
+> **Morretes 2Q é minha prioridade de diligência, com Centro 2Q como alternativa. A vantagem vem da eficiência de capital, não do maior preço-noite. Como o sinal temporal é desfavorável e não mede ocupação, a recomendação permanece condicionada ao limiar de 20% e à validação de ocupação realizada antes da compra.**

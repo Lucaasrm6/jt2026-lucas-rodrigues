@@ -26,7 +26,15 @@ def strip_accents(value) -> str:
 
 
 def canon_suburb(value):
+    """Canonicalize decision neighborhoods while preserving other valid Mesh labels.
+
+    Q1/Q2/Q4 explicitly filter the named candidate neighborhoods. Q3 uses the full
+    apartment+priced+located sample, so non-candidate Mesh neighborhoods must not be
+    silently discarded.
+    """
     s = strip_accents(value)
+    if not s:
+        return None
     if "meia praia" in s:
         return "Meia Praia"
     if "morretes" in s:
@@ -41,7 +49,8 @@ def canon_suburb(value):
         return "Alto Sao Bento"
     if "casa branca" in s:
         return "Casa Branca"
-    return None
+    # Keep other observed location labels for the Q3 control instead of deleting rows.
+    return str(value).strip()
 
 
 def as_bool(s: pd.Series) -> pd.Series:
@@ -56,9 +65,7 @@ def fmt(v):
     return v
 
 
-# -----------------------------------------------------------------------------
 # 1. Load and build one-row-per-Airbnb-listing frame
-# -----------------------------------------------------------------------------
 details = load("Details_Itapema.csv")
 hosts = load("Hosts_ids_Itapema.csv")
 mesh = load("Mesh_Ids_Data_Itapema.csv")
@@ -91,9 +98,7 @@ if "is_superhost" in air.columns:
 else:
     air["superhost"] = 0
 
-# -----------------------------------------------------------------------------
 # 2. Acquisition frame — valid apartment asking prices only
-# -----------------------------------------------------------------------------
 v = viva.drop_duplicates("listing_id", keep="first").copy()
 v = v[v["listing_type"].astype(str).str.lower().eq("apartamento")].copy()
 v["sale_price"] = pd.to_numeric(v["sale_price"], errors="coerce")
@@ -111,9 +116,7 @@ v["valid"] = (
 )
 v = v[v["valid"]].copy()
 
-# -----------------------------------------------------------------------------
 # 3. Q1 — profile: operating potential vs capital efficiency
-# -----------------------------------------------------------------------------
 q1_air = (
     air.dropna(subset=["bed_group", "displayed_nightly_price"])
     .groupby("bed_group")
@@ -127,9 +130,7 @@ q1_viva = (
 q1 = q1_air.join(q1_viva, how="inner")
 q1["cei"] = q1["night"] / q1["asking"]
 
-# -----------------------------------------------------------------------------
 # 4. Q2 — location overall and within bedroom mix
-# -----------------------------------------------------------------------------
 focus = ["Meia Praia", "Centro", "Morretes", "Tabuleiro"]
 q2 = (
     air[air["suburb_canon"].isin(focus)]
@@ -144,9 +145,7 @@ q2_mix = (
     .agg(n=("airbnb_listing_id", "nunique"), night=("displayed_nightly_price", "median"))
 )
 
-# -----------------------------------------------------------------------------
 # 5. Q4 — candidate comparable segments
-# -----------------------------------------------------------------------------
 air_seg = (
     air.dropna(subset=["suburb_canon", "bed_group"])
     .groupby(["suburb_canon", "bed_group"])
@@ -171,10 +170,11 @@ candidates = segments[
     segments.apply(lambda r: (r["suburb_canon"], int(r["bed_group"])) in focus_candidates, axis=1)
 ].sort_values("cei", ascending=False)
 
-# -----------------------------------------------------------------------------
 # 6. Q3 — associative log-price model, owner-clustered uncertainty
-# -----------------------------------------------------------------------------
-reg = air[air["suburb_canon"].isin(["Meia Praia", "Centro", "Morretes", "Tabuleiro", "Canto da Praia", "Alto Sao Bento", "Casa Branca"])].copy()
+# Use the full apartment + priced + located sample. This is the 911-listing frame
+# independently reproduced during the hackathon; candidate-neighborhood filters are
+# used for Q2/Q4, not to delete controls from Q3.
+reg = air[air["suburb_canon"].notna()].copy()
 reg = reg[
     reg["displayed_nightly_price"].gt(0)
     & reg["bedrooms"].notna()
@@ -195,6 +195,7 @@ m2 = smf.ols(formula2, data=reg).fit(cov_type="cluster", cov_kwds={"groups": reg
 def pct(beta: float) -> float:
     return 100 * (math.exp(beta) - 1)
 
+
 coef = {}
 for key, label in [
     ("bedrooms", "bedrooms"),
@@ -208,9 +209,10 @@ for key, label in [
     if key in m2.params:
         coef[label] = {"beta": float(m2.params[key]), "pct_assoc": pct(float(m2.params[key])), "pvalue": float(m2.pvalues[key])}
 
-# Direct neighborhood contrasts from a common fitted model.
+
 def nb_key(name: str) -> str:
     return f"C(suburb_canon, Treatment(reference='Meia Praia'))[T.{name}]"
+
 
 b_centro = float(m2.params.get(nb_key("Centro"), 0.0))
 b_morretes = float(m2.params.get(nb_key("Morretes"), 0.0))
@@ -221,9 +223,7 @@ contrasts = {
     "Meia_Praia_vs_Morretes": pct(-b_morretes),
 }
 
-# -----------------------------------------------------------------------------
 # 7. Store readable, machine-checkable results
-# -----------------------------------------------------------------------------
 result = {
     "semantics": {
         "price_av": "median displayed nightly price; not realized revenue or observed occupancy",

@@ -1,0 +1,274 @@
+CHECKPOINT 1 APPROVED, with two PRE-RANKING methodological refinements.
+
+These changes are being made BEFORE seeing which segment wins. Record them in
+working/decision-log.md and investment-thesis-register.md with the reason.
+
+1. SAMPLE-SIZE RULE REFINEMENT
+
+Keep:
+- Tier A: n >= 30 on both relevant sides
+- Tier B: n 15–29 on at least one side
+- <15: exploratory / very low confidence
+
+But treat these as CONFIDENCE TIERS, not automatic winner gates.
+
+A smaller sample must produce wider uncertainty and weaker wording, not automatic
+rejection solely because n < 30.
+
+A segment may only be called genuinely untestable when the required evidence is
+absent or semantically invalid — for example, studio with zero comparable sale
+observations.
+
+Do not change these definitions again after ranking unless a genuine methodological
+problem is found and documented.
+
+2. TIME BASIS
+
+The PRIMARY analysis must remain in the observed window.
+
+Do NOT annualize the main result.
+
+Any annualized number may appear later only as a clearly labeled MECHANICAL SCENARIO,
+not as forecast, realized ROI, or expected annual return.
+
+────────────────────────────────────────────────────────
+CYCLE 2 — DECISION ENGINE
+────────────────────────────────────────────────────────
+
+Do not jump to the final recommendation.
+
+The objective of this cycle is to determine whether the investment ranking survives
+different defensible interpretations of the data.
+
+A. PRESERVE THE Price_AV PANEL
+
+Before deduplicating anything, identify exactly which column represents the capture
+snapshot.
+
+Do not mistake repeated (listing_id, stay_date) records across captures for accidental
+duplicates.
+
+Create a panel description showing:
+- capture dates;
+- stay-date ranges by capture;
+- listings per capture;
+- listing overlap between captures;
+- number of listing-date observations per capture;
+- dates/listings entering or disappearing.
+
+Explain what information is lost under each possible deduplication strategy.
+
+B. TEST THREE SEPARATE OPERATIONAL CONSTRUCTIONS
+
+Do not choose the one that produces the nicest answer.
+
+METHOD A — DISPLAYED-PRICE POTENTIAL
+Use displayed nightly prices only.
+
+This method must NOT invent occupancy.
+It answers:
+"What nightly monetization potential is observable among listings covered by Price_AV?"
+
+Use robust per-listing and segment summaries.
+
+METHOD B — SNAPSHOT CHANGE / PICKUP PROXY
+Investigate whether changes between snapshots contain useful demand information.
+
+For the independent intervals available, such as 06→20 and 07→20 when valid:
+- identify listing-dates present in an earlier capture and absent in a later one;
+- verify that the same stay-date was observable in both capture horizons;
+- quantify the transition;
+- call it PICKUP / ABSORPTION PROXY unless the data semantics prove reservation;
+- never automatically call disappearance a confirmed booking.
+
+Test whether the signal is consistent across independent snapshot pairs.
+
+If the two snapshot constructions materially disagree, flag this prominently.
+
+METHOD C — OCCUPANCY SCENARIO
+Only as sensitivity.
+
+Use explicitly hypothetical occupancy levels.
+Do not claim they are observed.
+
+Show whether changing the assumed occupancy changes the segment ranking.
+
+The key question is not "which method is correct?"
+It is:
+"Which investment conclusions survive all defensible methods?"
+
+C. COVERAGE-BIAS TEST — HIGH PRIORITY
+
+Only 999 of 4,441 Airbnb listings have Price_AV coverage.
+
+Test whether covered and uncovered listings differ materially in:
+- neighborhood;
+- bedrooms;
+- property/listing type;
+- guest capacity;
+- professional/operator status if validly defined;
+- superhost;
+- rating/review variables when appropriate.
+
+Also report Price_AV coverage RATE for every candidate segment.
+
+Do not compare only raw n.
+
+If coverage is strongly selective:
+- quantify the difference;
+- determine how it may bias the ranking;
+- do not pretend the 999-listing sample represents all 4,441.
+
+Do not implement complex reweighting unless the bias is both material and decision-changing.
+
+D. VIVAREAL VALIDITY AUDIT
+
+Before calculating acquisition medians:
+
+1. deduplicate using the proper listing identifier;
+2. freeze a deterministic raw-neighborhood → canonical-neighborhood mapping;
+3. output the mapping and counts before/after;
+4. do not silently map ambiguous labels such as building names or generic "Itapema";
+5. restrict comparisons to semantically compatible residential properties;
+6. inspect sale_price and usable_area distributions;
+7. calculate price/m² and inspect extreme cases;
+8. inspect the raw listings behind suspiciously cheap candidate segments.
+
+Do not remove an observation merely because it is cheap or expensive.
+Give a defensible validity reason.
+
+Especially audit Centro 1Q because the investment thesis lives in a relatively thin
+sale sample.
+
+E. BUILD COMPARABLE SEGMENTS
+
+Primary comparison:
+canonical neighborhood × bedrooms × compatible residential type.
+
+Avoid adding dimensions until needed.
+
+For every segment show BOTH:
+- Airbnb total listings
+- Airbnb with Price_AV
+- Price_AV coverage rate
+- unique Airbnb owners
+- VivaReal valid listings
+
+This is mandatory in every decision table.
+
+F. UNCERTAINTY, NOT JUST MEDIANS
+
+For viable candidate segments:
+
+Airbnb side:
+- bootstrap in a way that respects dependence between listings from the same owner
+  when practical (cluster by owner).
+
+VivaReal side:
+- independently bootstrap valid sale listings.
+
+Estimate uncertainty around the chosen performance / capital-efficiency proxy.
+
+Report:
+- median/base estimate;
+- uncertainty interval;
+- ranking stability under resampling.
+
+Do not present bootstrap frequency as the probability that an investment is truly
+best. Call it ranking stability under resampling.
+
+G. PARETO BEFORE A SINGLE WINNER
+
+Create a Pareto view using at least:
+- operating / monetization potential;
+- acquisition asking price;
+- evidence robustness.
+
+Identify:
+- dominated segments;
+- non-dominated candidates.
+
+Do not invent arbitrary weights.
+
+H. SENSITIVITY / BREAK-EVEN
+
+For the leading candidates, test:
+- revenue/proxy −10%;
+- revenue/proxy −20%;
+- acquisition price +10%;
+- relevant occupancy scenarios;
+- alternative defensible Price_AV method.
+
+Also calculate useful break-even quantities such as:
+
+"What maximum acquisition price would allow candidate A to match candidate B's
+capital efficiency under the same operational assumptions?"
+
+Prefer competitor-parity break-even to an arbitrary external target return.
+
+I. TEST THE INTERNAL THESIS ONLY AFTER ALL ABOVE
+
+Now — and only now — evaluate separately:
+
+THESIS 1:
+Studio in Centro.
+
+Possible outcomes:
+SUPPORTED / NOT SUPPORTED / INCONCLUSIVE.
+
+THESIS 2:
+1-bedroom apartment in Centro.
+
+Possible outcomes:
+SUPPORTED / PARTIALLY SUPPORTED / NOT SUPPORTED / INCONCLUSIVE.
+
+Do not combine studio and 1Q if their evidence availability differs.
+
+J. DO NOT YET SPEND TIME ON LARGE PREDICTIVE MODELS
+
+For this cycle, prioritize the investment decision.
+
+Do not build decorative ML.
+
+We will analyze revenue drivers and controlled associations in a later cycle after the
+candidate investment set is understood.
+
+K. AI-LOG DISCIPLINE
+
+Update working/ai-collaboration-index.md only with meaningful moments.
+
+In particular record:
+- the pre-ranking sample-rule refinement;
+- any interpretation of Price_AV that fails;
+- any candidate that looks attractive before a validity check but weakens after it;
+- any conclusion that changes after coverage or uncertainty analysis.
+
+Do not manufacture disagreement or errors.
+Record only what genuinely happens.
+
+────────────────────────────────────────────────────────
+OUTPUT — CHECKPOINT 2
+────────────────────────────────────────────────────────
+
+Return in Portuguese:
+
+1. What the Price_AV snapshots actually allow us to measure
+2. Comparison of Methods A, B and C
+3. Coverage-bias result
+4. VivaReal validity audit and important corrections
+5. Canonical comparable-segment table
+6. Pareto candidates
+7. Ranking stability / bootstrap uncertainty
+8. Sensitivity and break-even results
+9. Verdict on studio Centro
+10. Verdict on 1Q Centro
+11. Top 3 investment candidates — NOT yet the final recommendation
+12. Which single assumption is currently most capable of changing the decision
+13. Which findings changed during this cycle and why
+14. Exact analyses you recommend for the next cycle, ranked by decision value / time
+
+STOP at CHECKPOINT 2.
+
+Do not write the final README.
+Do not create the final video.
+Do not declare the final investment recommendation yet.

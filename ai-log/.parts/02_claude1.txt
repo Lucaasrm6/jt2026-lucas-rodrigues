@@ -1,0 +1,118 @@
+Both required registers are written and the criterion is frozen before ranking. Here is Checkpoint 1.
+
+---
+
+# CHECKPOINT 1 — Caso de investimento Seazone / Itapema (SC)
+
+> Disciplina aplicada: inspecionei semântica **antes** de calcular, congelei o critério de "melhor investimento" **antes** de ver quem vence, e rotulo cada afirmação como **fato observado**, **interpretação**, **hipótese** ou **suposição**. Tudo é reproduzível por `working/profile_datasets.py`. A tese interna (compactos/studios/Centro) permanece `HIPÓTESE NÃO VALIDADA`.
+
+## A. Decisão de negócio em 1 frase
+
+**Decidir em qual combinação de bairro × perfil de imóvel (nº de quartos/tipo) a Seazone deve alocar capital de aquisição em Itapema, de modo a maximizar a eficiência do investimento — receita operacional potencial por real de preço de compra — e não apenas a receita absoluta, sob amostra robusta e estável a suposições.**
+
+Distingue: **onde** (bairro), **qual perfil** (quartos/tipo), **desempenho operacional esperado** (proxy de receita de diária), **capital de aquisição** (preço pedido VivaReal) e **eficiência** (yield-proxy = receita/preço).
+
+## B. Critério predefinido de "melhor investimento" (congelado — `investment-thesis-register.md`)
+
+Hierarquia lexicográfica de dominância + sensibilidade (sem pesos arbitrários):
+
+1. **Portão de validade** — receita defensível, preço defensível, Airbnb×VivaReal comparáveis no segmento.
+2. **Portão de robustez (limiar fixado agora)** — **Tier A**: Airbnb-com-preço n≥30 **e** VivaReal-apto n≥30. **Tier B** (baixa confiança): n≥15 ambos. Abaixo de 15 = **INSUFICIENTE, não pode vencer**.
+3. **Métrica de triagem** — "YIELD BRUTO PROXY = receita-janela ÷ preço pedido mediano", sempre rotulado "antes de custos".
+4. **Dois eixos sempre** — receita absoluta **e** eficiência; um não substitui o outro.
+5. **Estabilidade** — vencedor deve resistir a receita −10%/−20%, preço +10%, e às duas convenções de ocupação.
+6. **Desempate** — amostra/estabilidade → depois ajuste operacional.
+
+*Se eu mudar esse critério após ver resultados, registro a mudança e o porquê.*
+
+## C. Inventário e semântica dos 5 datasets (fatos observados)
+
+| Arquivo | Unidade de obs. | Chave | Linhas × Col. | Datas | Duplicatas | Ponto crítico |
+|---|---|---|---|---|---|---|
+| **Details** | 1 anúncio Airbnb | `airbnb_listing_id` (única) | 4.441 × 35 | captura ~13/01/2025 | 0 | `owner_id`→Hosts; `space` 57% nulo; sem bairro |
+| **Hosts** | 1 host (re-snapshot) | `owner_id` (**3.057 únicos**/4.440) | 4.440 × 11 | ~13/01/2025 | 1.383 owner repetidos | `response_rate/time` **100% nulos** |
+| **Mesh** | 1 anúncio Airbnb | `airbnb_listing_id` (única) | 4.441 × 8 | 2021→2026 (mistas) | 0 | **fonte de `suburb`/bairro**, 0 nulos |
+| **Price_AV** | 1 (anúncio, data, captura) | (`id`,`date`) **não-única** | 118.839 × 4 | estadia **06/01→20/04/2025** | 59.799 (id,date) repetidos = **múltiplos snapshots** | **sem flag de disponibilidade/reserva** |
+| **VivaReal** | 1 anúncio de venda | `listing_id` (**8.293**/8.329) | 8.329 × 22 | captura 11/01/2025 (1 só) | 36 | `rental_price` **100% nulo**; tem `sale_price`, área, condo, IPTU |
+
+**Chaves de junção (fato):** Details↔Mesh = 100% (4.441); Details↔Hosts por `owner_id` = 100%; Details↔Price_AV = **apenas 999** dos 4.441; **Airbnb ∩ VivaReal = 0** → *impossível casar imóvel físico; só comparação por segmento.*
+
+**Valores suspeitos (fato, a investigar):** `sale_price` min R$10k e máx R$44M; `usable_area` máx **188.000 m²** e mín 0; diária máx R$29.000; VivaReal inclui **terreno (164) e comercial (79)** — não comparáveis a STR.
+
+**Inconsistência de bairro (fato, alto impacto):** VivaReal traz `CENTRO`,`MEIA PRAIA`,`meia praia`,`Meia Praia - Frente Mar`,`Ocean Tower`,`Itapema`… — só 8 casam exatamente com o Airbnb. **Normalizar dobra a contagem** (Centro apto 443→985; Meia Praia 1706→3415). *Interpretação:* sem normalização, o lado de venda é subcontado e o ranking distorce.
+
+## D. O que podemos chamar de "receita" — e o que não podemos (revenue-proxy-audit)
+
+| Campo | Valores observados | Significado interpretado | Confiança | Risco se errado |
+|---|---|---|---|---|
+| `date` | 06/01–20/04/2025, 105 datas | data de estadia futura | Alta | janela é **alta temporada** (verão BR) |
+| `price` | mediana R$607, sem nulos/zeros | **diária exibida** | Alta | não é preço realizado |
+| presença da linha | toda linha tem preço | data **ofertada** no calendário | Média | pode significar "disponível" *ou* "reservada" — indeterminado |
+| `aquisition_date` | 4.172 valores, ~2 ondas (06–07 e 20/01) | **múltiplos snapshots** | Alta | permite tentar inferir reserva (frágil) |
+
+**Conclusões (fatos → rótulo):**
+- **Não** há flag de reserva/bloqueio → **disponibilidade ≠ ocupação. Ocupação = INSUFICIENTE** (tem de ser suposta).
+- Diária exibida **≠** receita realizada → **receita realizada = INSUFICIENTE**.
+- Janela = **~3,4 meses de alta temporada**, não um ano → **anualizar não é defensável** sem ajuste sazonal explícito (extrapolar ~3,5× superestimaria).
+- Cobertura = **999/4.441 (22,5%)** → qualquer receita vale só para um subconjunto possivelmente enviesado.
+
+**→ Rótulo mais forte defensável hoje: `PROXY DE POTENCIAL DE RECEITA`** (diária × ocupação **suposta**, base-janela), *antes* de qualquer custo. Caminho possível para `RECEITA ESTIMADA` via diferença entre snapshots (data que "some" = possível reserva) — **frágil e não confirmado**; fica como análise candidata, não como base.
+
+## E. Como comparar Airbnb × VivaReal (comparable-market-design)
+
+Sem identificador físico comum → **comparação por segmento `bairro (normalizado) × nº de quartos`, VivaReal restrito a `apartamento`**. Airbnb-receita limitado aos 999 com preço. Toda tabela mostra **n dos dois lados**. Segmentos que já passam o portão de robustez (Airbnb-coberto ≥30 **e** VivaReal-apto ≥30):
+
+| Segmento | Airbnb c/ preço | VivaReal apto | Tier |
+|---|---|---|---|
+| Meia Praia · 3q | 332 | 1.704 | A |
+| Meia Praia · 2q | 191 | 244 | A |
+| Meia Praia · 4q | 62 | 1.328 | A |
+| Morretes · 2q | 60 | 1.044 | A |
+| Centro · 3q | 47 | 438 | A |
+| Meia Praia · 1q | 33 | 58 | A |
+| Centro · 2q | 67 | 89 | A |
+| **Centro · 1q** | 82 | **22** | **B** (lado venda fino) |
+| Studio (0q) qualquer | ~8 | **0** | **INSUFICIENTE** |
+
+*Interpretação:* a **parte "studio" da tese interna é hoje indecidível** (sem oferta de venda); a parte **1q/Centro é testável, porém no Tier B** (justamente onde a tese mora, a amostra de venda é frágil).
+
+## F. Hipóteses concorrentes (todas com confiança BAIXA/desconhecida hoje)
+
+- **H-LOC (localização):** Centro > Meia Praia. *Alternativa:* Meia Praia (frente-mar, 64% da oferta) tem ADR maior; vantagem de Centro pode ser **composição** (Simpson). *Check barato:* preço/noite e yield **dentro do mesmo nº de quartos**.
+- **H-BED (perfil):** compactos (studio/1q) têm melhor eficiência. *Alternativa:* oferta de venda de compactos é rara → prêmio por m²; eficiência pode ser pior. *Check:* yield 1q vs 2–3q onde n≥30 ambos.
+- **H-TYPE (tipo):** restringir a `apartamento` muda o resultado vs incluir casa/hotel. *Check:* comparar com/sem casas.
+- **H-EFF (eficiência):** o segmento de **maior receita ≠ maior yield**. *Check:* rankear por receita e por yield e comparar as ordens.
+- **H-HOST (operador — explicação alternativa):** diferença de receita vem de **gestão profissional/superhost**, não do ativo (19% dos cobertos são profissionais). *Check:* receita por flag profissional **dentro de um segmento fixo**.
+- **H-COVER (viés de seleção):** os 999 com preço não representam os 4.441. *Check:* comparar cobertos vs não-cobertos em quartos/tipo/bairro/superhost.
+
+## G. Top 5 análises por valor/tempo (decisão ÷ custo)
+
+1. **Normalizar bairro + congelar tabela de segmentos com n dos dois lados** — destrava tudo; custo baixo. *(prereq)*
+2. **Construir o proxy de receita por anúncio na janela + cenários de ocupação (conservador/base)** — núcleo; custo médio.
+3. **Preço pedido mediano por segmento (robusto, p25/p50/p75)** — barato, essencial ao yield.
+4. **Yield-bruto-proxy por segmento + sensibilidade** (receita −10/−20%, preço +10%) — **é a decisão**; custo médio.
+5. **Checagem de confusão por operador (H-HOST) + viés de cobertura (H-COVER)** — barata, protege a recomendação de ser um artefato de gestão/seleção.
+
+## H. Riscos que podem invalidar a recomendação
+
+1. **Receita é proxy de potencial, não realizada; ocupação suposta; janela só de alta temporada** → magnitude e até o ranking podem mudar.
+2. **Cobertura de 22,5%** → viés de seleção (H-COVER) ainda não descartado.
+3. **Preço pedido ≠ preço de transação**; **~30% sem condo/IPTU** → sem yield líquido/cap rate; só bruto.
+4. **Normalização de bairro** errada → segmentação/ranking errados.
+5. **Mesma etiqueta, imóveis diferentes** — apto 3q do VivaReal pode ser maior/mais novo que o do Airbnb (comparar área/hóspedes dentro do segmento).
+6. **Efeito operador (H-HOST)** pode explicar a receita — recomendar um atributo do ativo seria enganoso.
+7. **Lado de venda fino nos compactos** (Centro 1q: 22; studio: 0) → intervalos largos exatamente na tese interna.
+
+## I. Como este 1º ciclo demonstra uso crítico de IA
+
+- **Inspecionei definições antes de calcular:** descobri a janela de 3,4 meses de alta temporada e a cobertura de 22,5% — que quebrariam uma anualização ingênua — *antes* de somar qualquer receita.
+- **Recusei sobreafirmações:** disponibilidade **não** virou ocupação; diária exibida **não** virou receita; preço pedido **não** virou transação — rótulo enfraquecido a **proxy**.
+- **Anti-anchoring explícito:** congelei critério e limiar de amostra (n≥30/n≥15) **antes** de ver quem vence, e separei "tese errada" de "tese indecidível" (studios).
+- **Fato × interpretação × hipótese** rotulados; cada risco vem com o **check mais barato** que mudaria a conclusão.
+- **Reprodutível e rastreável:** um único script gera todos os números; registros em `working/investment-thesis-register.md` e `working/ai-collaboration-index.md`.
+
+---
+
+**PARO AQUI.** Não inicio a modelagem completa nem a recomendação final até você aprovar o Checkpoint 1.
+
+Duas decisões suas que orientam o próximo ciclo, se quiser adiantar: **(1)** aceita o limiar de robustez n≥30 (Tier A) / n≥15 (Tier B)? **(2)** trabalhamos a receita em **base-janela alta-temporada** (mais honesto) ou tento também uma anualização sazonal rotulada como cenário?

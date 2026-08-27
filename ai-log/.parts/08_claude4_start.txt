@@ -1,3 +1,0 @@
-Checkpoint 3 aprovado. Vou executar o Ciclo 4 (freeze analítico final). O item de maior peso novo é a Q3 (análise de associação / regressão), que exige computação real. Primeiro preciso auditar o código atual (itens 1 e 4), ver as colunas disponíveis para a regressão, e confirmar as bibliotecas.
-
-Deixo claro à partida: **não vou usar o Workflow** (ultracode OFF, sem opt-in). Faço o cálculo localmente em Python e uso subagentes individuais (Agent) só para verificação adversarial, conforme permitido.

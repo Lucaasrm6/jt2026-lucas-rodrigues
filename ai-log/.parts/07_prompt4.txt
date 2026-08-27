@@ -1,0 +1,420 @@
+CHECKPOINT 3 APPROVED.
+
+This is the FINAL MAJOR ANALYTICAL CYCLE.
+
+After this cycle we will freeze the analytical results, run verification +
+Consistency Gate, and move to README / AI-log presentation / video.
+
+Do not add methodological complexity unless it can materially change one of the
+four challenge answers.
+
+Record all genuine corrections in working/decision-log.md and
+working/ai-collaboration-index.md.
+
+────────────────────────────────────────────────────────
+CYCLE 4 — FINAL ANALYTICAL FREEZE
+────────────────────────────────────────────────────────
+
+1. CORRECT THE SNAPSHOT-TRANSITION LANGUAGE
+
+The previous document overstates independence.
+
+07→20 and 06→20 SHARE the same final snapshot and heavily overlap in time.
+They are NOT independent confirmations.
+
+Correct all wording.
+
+Also audit the current `open_rate`.
+
+The code calculates absent→present counts relative to earlier PRESENT observations.
+This is NOT a conventional reopening probability.
+
+Because observations absent in BOTH snapshots are not represented in Price_AV,
+the full risk set for reopening is not observable.
+
+Therefore:
+
+- do not report "reopening rate" as a probability;
+- report counts or normalized availability flows only;
+- do not infer true bookings, occupancy, cancellation, or reopening probability.
+
+Use the weakest defensible interpretation:
+
+AVAILABILITY-TRANSITION / CALENDAR-CONTRACTION PROXY.
+
+The temporal analysis may remain only as supplementary evidence.
+
+Do not allow it to drive the investment ranking.
+
+2. OPERATOR-MIX STANDARDIZATION TERMINOLOGY
+
+The current calculation uses a weighted combination of subgroup medians.
+
+That is NOT mathematically a standardized median.
+
+Either:
+
+A. implement a simple direct reweighting of covered observations toward the full
+segment operator mix and compute a weighted median,
+
+OR, if that adds unnecessary complexity:
+
+B. preserve the current calculation but rename it
+`OPERATOR-MIX-ADJUSTED CENTRAL-PRICE PROXY`.
+
+Do not overclaim precision.
+
+Test whether the ranking changes.
+If it does not, stop there.
+
+3. REMOVE THE "63% OF THE DISCOUNT IS SIZE" CLAIM
+
+The common-area-band comparison is useful.
+
+The exact decomposition "63% is caused by size" is too strong because:
+- medians are being compared;
+- price/m² is not a causal decomposition;
+- size distributions inside the band still differ;
+- median(ppm²) × reference area is a scenario, not an observed transaction.
+
+Use the safer conclusion:
+
+"A substantial part of Morretes' raw acquisition-price advantage reflects smaller
+units, but Morretes remains cheaper within a common 60–90 m² comparison band and
+also has lower median asking R$/m²."
+
+Report the actual common-band medians and sample sizes.
+
+Do not assign a causal percentage to size.
+
+4. AUDIT THE PARETO DEFINITION
+
+The current frontier is described as using:
+- operating potential;
+- acquisition price;
+- evidence robustness.
+
+But verify whether the code actually includes robustness in the dominance relation.
+
+If it only FILTERS to Tier A/B and then computes a two-dimensional frontier,
+describe it accurately as:
+
+"2D Pareto frontier among evidence-qualified segments."
+
+Do not claim robustness is a third Pareto axis unless it is actually implemented.
+
+Keep Tier A/B visible beside every candidate.
+
+5. FREEZE A CLEAN PRIMARY INVESTMENT-EFFICIENCY INDEX
+
+For ranking under equal occupancy, note that:
+
+CE90 =
+nightly_price × 90 × common_occupancy / asking_price
+
+The 90 and common occupancy multiplier do NOT affect relative ranking.
+
+Therefore create a primitive metric:
+
+CAPITAL_EFFICIENCY_INDEX =
+median displayed nightly price / median asking acquisition price
+
+Use this for relative screening.
+
+CE90 remains only as an interpretable 90-day SCENARIO.
+
+This reduces false precision and makes the logic clearer.
+
+6. REMOVE UNSUPPORTED CLAIMS EVERYWHERE
+
+Search the working documents for claims such as:
+
+- Centro has year-round demand;
+- Centro is less seasonal;
+- beach neighborhoods should have a 20–40% occupancy premium;
+- Meia Praia has higher transaction liquidity;
+- Meia Praia has higher appreciation;
+- active listings imply exit liquidity;
+- studio scarcity implies low liquidity;
+- Morretes probably has lower operating costs.
+
+Unless directly supported by supplied data, remove them from conclusions.
+
+They may appear only as:
+`FUTURE DILIGENCE HYPOTHESIS`.
+
+Do not use them to select the winner.
+
+7. ANSWER EACH OFFICIAL QUESTION WITH ITS OWN METRIC
+
+Do NOT let the investment-efficiency ranking silently answer all four questions.
+
+QUESTION 1 — BEST PROPERTY PROFILE
+
+Analyze:
+- residential listing/property type;
+- bedrooms;
+- guest capacity / bathrooms where useful;
+- listing/operator profile if available.
+
+Separate:
+A. highest displayed-nightly-price potential;
+B. strongest capital efficiency.
+
+Do not assume they are the same profile.
+
+QUESTION 2 — BEST LOCATION IN TERMS OF REVENUE
+
+Revenue realized is NOT observed.
+
+Therefore answer using the strongest defensible operating proxy.
+
+Compare neighborhoods:
+- overall;
+- and within the same bedroom profile to control property-mix composition.
+
+Explicitly test whether the overall neighborhood conclusion changes after controlling
+for bedroom mix.
+
+If revenue itself remains unknowable, say:
+
+"best location in observed monetization potential",
+not "proven highest realized revenue".
+
+QUESTION 3 — CHARACTERISTICS ASSOCIATED WITH HIGHER OPERATING PERFORMANCE
+
+This question is currently the main missing piece.
+
+Build a SIMPLE, INTERPRETABLE ASSOCIATION analysis.
+
+Unit:
+one Airbnb listing.
+
+Outcome:
+log(median displayed nightly price) or another clearly justified operating proxy.
+
+Do NOT call the dependent variable realized revenue.
+
+Start with a STRUCTURAL specification using available variables such as:
+- bedrooms;
+- bathrooms;
+- guest capacity;
+- residential listing/property type;
+- canonical neighborhood.
+
+Then, if sample/support is adequate, add an OPERATIONAL/HOST specification with
+variables such as:
+- professional operator;
+- superhost;
+- instant booking;
+- rating/review information.
+
+Before modeling:
+- inspect missingness;
+- avoid variables with near-zero variance;
+- inspect obvious collinearity;
+- do not include fields merely because they exist.
+
+Because listings from the same owner may be dependent:
+use owner-clustered uncertainty when feasible.
+
+Report:
+- sample size;
+- coefficient/effect direction;
+- uncertainty;
+- model explanatory power;
+- whether important conclusions are stable across specifications.
+
+Do NOT make causal claims.
+
+Use:
+"associated with"
+not:
+"causes", "increases revenue", or "drives demand".
+
+Treat host-status variables as potentially endogenous rather than automatically causal.
+
+Also produce simple stratified comparisons so the model is not a black box.
+
+No decorative ML.
+
+8. QUESTION 4 — INVESTMENT DECISION TABLE
+
+Build a final candidate table containing at minimum:
+
+- Morretes 2Q
+- Centro 1Q
+- Centro 2Q
+- Meia Praia 2Q
+- strongest Meia Praia larger-unit alternative if still relevant
+
+Columns:
+
+- median displayed nightly price;
+- Airbnb total n;
+- Airbnb priced n;
+- Price_AV coverage rate;
+- unique owners;
+- median asking acquisition price;
+- valid VivaReal n;
+- median usable area;
+- median asking R$/m²;
+- CAPITAL_EFFICIENCY_INDEX;
+- CE90 base scenario;
+- Tier;
+- transition proxy, clearly marked supplementary;
+- main uncertainty;
+- condition that reverses the decision.
+
+9. SIMPLE RETURN ESTIMATE
+
+The challenge explicitly requests a simple return estimate.
+
+Provide one, but do not pretend it is forecast.
+
+For the final shortlist, calculate:
+
+A. CE90 observed-window scenarios under clearly hypothetical occupancy assumptions.
+
+B. A MECHANICAL annual gross-return scenario ONLY for communication with the investment
+question.
+
+Label it prominently:
+
+"Mechanical annual gross scenario — NOT forecast."
+
+State that it assumes the observed displayed-nightly-price level persists outside the
+Jan–Apr window, which is unsupported and likely optimistic.
+
+If useful, show more than one occupancy case rather than one fake precise number.
+
+Do NOT invent:
+- financing;
+- appreciation;
+- transaction discount;
+- management fee;
+- platform fee;
+- maintenance;
+- furnishing cost.
+
+If condominium/IPTU fields are sufficiently complete and plausible for the exact
+candidate segment, they may appear as an OPTIONAL observed-cost sensitivity,
+not as full net ROI.
+
+10. RELATIVE BREAK-EVEN
+
+Preserve the strongest idea from the previous cycle:
+
+calculate the relative operating-performance / occupancy advantage required for each
+candidate to overtake another.
+
+This is more defensible than assuming an external target return.
+
+For the likely top candidates, state the reversal condition in one sentence.
+
+11. INTERNAL THESIS VERDICT
+
+Separate explicitly:
+
+STUDIO + CENTRO:
+SUPPORTED / NOT SUPPORTED / INCONCLUSIVE.
+
+1 BEDROOM + CENTRO:
+SUPPORTED / PARTIALLY SUPPORTED / NOT SUPPORTED / INCONCLUSIVE.
+
+Do not say studio scarcity is a liquidity signal.
+
+Absence of evidence here means only that this dataset cannot evaluate that component
+defensibly.
+
+12. FINAL HUMAN DECISION SUPPORT
+
+After answering Questions 1–3 independently, use them to evaluate Question 4.
+
+Do not say:
+"the mandate selects the winner"
+without proposing a decision.
+
+The challenge asks us to take a position.
+
+Produce:
+
+PRIMARY RECOMMENDATION
+ALTERNATIVE
+DO-NOT-BUY / DILIGENCE CONDITION if relevant
+
+For the primary recommendation, state:
+
+- why;
+- evidence confidence;
+- what assumption it depends on;
+- exact condition that would reverse it;
+- what Seazone should validate before committing capital.
+
+If the supplied data is insufficient to justify an unconditional purchase, a
+CONDITIONAL recommendation is acceptable and preferable to false certainty.
+
+13. NO EXTERNAL DATA NOW
+
+Do NOT search AirDNA.
+Do NOT search random real-estate portals.
+Do NOT attempt to fabricate current occupancy.
+
+External data should appear only under:
+"next diligence before capital commitment".
+
+We have enough evidence to answer the hackathon honestly.
+
+14. VERIFICATION
+
+After all calculations:
+
+- independently reproduce decision-critical numbers;
+- verify the four official answers against generated tables;
+- ensure older superseded claims are not copied forward;
+- run the Consistency Gate.
+
+The Consistency Gate must check, among other things:
+
+- no "ADR" when it means displayed price;
+- no realized revenue language;
+- no unsupported liquidity/appreciation/seasonality claims;
+- no "independent pairs" for overlapping snapshot windows;
+- no "63% caused by size";
+- no reopening probability claim;
+- studio and 1Q thesis remain separated.
+
+────────────────────────────────────────────────────────
+CHECKPOINT 4 — FINAL ANALYTICAL FREEZE
+────────────────────────────────────────────────────────
+
+Return in Portuguese:
+
+1. Final semantic interpretation of Price_AV
+2. Best property profile — operating potential
+3. Best property profile — capital efficiency
+4. Best location under the defensible operating proxy
+5. Location result after controlling for bedroom/property mix
+6. Characteristics associated with higher displayed-price performance
+7. Final candidate investment table
+8. Capital-efficiency ranking
+9. Mechanical return scenarios
+10. Relative break-even / reversal conditions
+11. Studio-Centro verdict
+12. Centro-1Q verdict
+13. PRIMARY recommendation
+14. ALTERNATIVE recommendation
+15. Exact confidence level and why
+16. What would make us change the recommendation
+17. What must be validated before actual capital commitment
+18. Which AI-generated conclusions were corrected during the full process
+19. Consistency Gate result
+20. Exact 5–7 numbers that are safe enough to use in the 3-minute video
+
+Then STOP.
+
+Do not write the README yet.
+Do not make slides yet.
+Do not generate the final video script yet.
+
+This checkpoint freezes the analysis.

@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   normalize:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,21 +21,17 @@ jobs:
 
           p = Path('ai-log/01_ai_log.md')
           text = p.read_text(encoding='utf-8')
-          old = """# AI Log — prompts principais e respostas literais
-
-> As respostas do **Claude Code** abaixo foram transcritas literalmente do arquivo de sessão local (`e34984bc-5c7a-4a4b-993e-a3a502f49cf2.jsonl`). Não foram resumidas, reescritas ou corrigidas neste documento.
->
-> Foram removidos apenas itens sem relação com o desenvolvimento analítico: saudações, comandos locais, tentativas iniciais de localização dos arquivos, retries e erros de infraestrutura/API.
->
-> Quando uma conclusão antiga aparece numa resposta literal e depois é corrigida, ela permanece aqui exatamente como ocorreu; a correção aparece no ciclo seguinte.
-"""
-          new = """# AI Log — sessão de trabalho com IA
-
-> Registro dos prompts e respostas utilizados no desenvolvimento analítico do case. As respostas do **Claude Code** são apresentadas literalmente. Quando uma conclusão foi revisada durante o processo, a correção aparece no ciclo subsequente.
-"""
-          if old not in text:
-              raise SystemExit('Cabeçalho esperado não encontrado; nenhuma alteração feita.')
-          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+          marker = '\n---\n'
+          if marker not in text:
+              raise SystemExit('Separador inicial não encontrado; nenhuma alteração feita.')
+          _, rest = text.split(marker, 1)
+          header = (
+              '# AI Log — sessão de trabalho com IA\n\n'
+              '> Registro dos prompts e respostas utilizados no desenvolvimento analítico do case. '
+              'As respostas do **Claude Code** são apresentadas literalmente. Quando uma conclusão '
+              'foi revisada durante o processo, a correção aparece no ciclo subsequente.\n'
+          )
+          p.write_text(header + marker + rest, encoding='utf-8')
           PY
 
       - name: Remove one-time workflow and commit

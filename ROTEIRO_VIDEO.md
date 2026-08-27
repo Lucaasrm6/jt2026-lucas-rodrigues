@@ -1,93 +1,98 @@
-# Roteiro do vídeo — 2min45 a 2min55
+# Roteiro de vídeo — até 3 minutos, compartilhando a tela
 
-## Preparação da tela
+**Meta:** 2min35–2min50.  
+**Formato:** GitHub aberto no `README.md`; sem slides.
 
-Deixar abertas, nesta ordem:
+## Antes de gravar
 
-1. `README.md`;
-2. tabela final da recomendação;
-3. seção com as quatro perguntas;
-4. `ai-log/01_ai_log.md` na parte do C4.1;
-5. resultado do Consistency Gate.
+Deixe estas abas já abertas:
 
-Não gastar tempo rolando código de análise. O vídeo deve mostrar a decisão, a evidência e um exemplo concreto de como a IA foi auditada.
+1. `README.md` no topo;
+2. seção Q1/Q2;
+3. seção Q3;
+4. `ai-log/01_ai_log.md` em “Auditoria do Checkpoint 4”;
+5. `scripts/consistency_gate_final.py` ou o resultado `PASS (14/14)`.
 
----
-
-## 0:00–0:18 — decisão primeiro
-
-**Tela:** README com a recomendação executiva.
-
-**Fala:**
-
-> “Se a Seazone tivesse que alocar capital hoje com essa base, minha primeira busca seria por um apartamento de dois quartos em Morretes. Mas eu não trato isso como uma resposta absoluta: é uma recomendação condicional, porque a variável que mais pode inverter a decisão — ocupação real — não existe nos dados.”
+Use zoom 110–125%. Feche notificações, histórico de terminal e qualquer aba pessoal.
 
 ---
 
-## 0:18–0:50 — por que Morretes
+## 0:00–0:17 — decisão
 
-**Tela:** tabela final.
+**Tela:** topo do README.
 
-**Fala:**
-
-> “O segmento tem preço-noite exibido mediano de 498 reais e preço-pedido mediano de 790 mil. Para comparar aquisição e operação sem fingir que conheço ocupação, usei primeiro um índice simples: preço-noite dividido pelo capital de aquisição. Em um cenário mecânico de 90 dias a 55% de ocupação hipotética, isso equivale a 3,1% do preço de compra. Não é ROI observado e não é forecast.”
+> “Se a Seazone tivesse que decidir hoje, eu colocaria **Morretes, dois quartos**, no topo da diligência de aquisição. Não como compra automática: existe uma condição objetiva que pode inverter essa decisão.”
 
 ---
 
-## 0:50–1:15 — perguntas 1 e 2
+## 0:17–0:50 — Q1 e Q2
 
-**Tela:** respostas Q1/Q2.
+**Tela:** “As quatro respostas”.
 
-**Fala:**
-
-> “Os dados também mostram por que não dá para responder o case com um único ranking. Imóveis de quatro quartos ou mais têm o maior potencial absoluto de diária; os de um e dois quartos são mais eficientes por capital. E, entre bairros com amostra robusta, Meia Praia lidera a mediana agregada, enquanto o Centro melhora quando controlo o mix de quartos. Localização e perfil estavam confundidos no agregado.”
-
----
-
-## 1:15–1:38 — tese do Centro
-
-**Tela:** bloco da tese interna.
-
-**Fala:**
-
-> “Eu também testei a hipótese de compactos no Centro sem tratá-la como âncora. Para studio, a resposta é simples: a amostra comparável é zero, então eu não inventei um veredito. Para um quarto, há evidência favorável à eficiência, mas não suficiente para superar Morretes dois quartos na decisão final.”
+> “Eu separei duas perguntas que parecem iguais: quem cobra mais e quem usa melhor o capital. **4+ quartos** têm o maior preço-noite, cerca de **R$1.065**, mas **1–2 quartos** são mais eficientes porque o preço de compra cresce mais rápido que a diária.
+>
+> Em localização, **Meia Praia** lidera o agregado robusto, com **R$600**. Mas controlando tipologia, em dois quartos o Centro cobra **R$580**, Morretes **R$498** e Meia Praia **R$460**. Então parte do resultado agregado era composição de quartos.”
 
 ---
 
-## 1:38–2:15 — uso de IA com um caso concreto
+## 0:50–1:12 — Q3
 
-**Tela:** AI log na parte do C4.1 e depois o Consistency Gate.
+**Tela:** seção Q3.
 
-**Fala:**
-
-> “Eu usei IA em ciclos separados de execução e revisão. O caso mais útil aconteceu no último freeze. A primeira versão declarou Consistency Gate 14 de 14. Na revisão do código eu encontrei que os checks estavam hardcoded como `True`. A mesma auditoria encontrou dois problemas na regressão: interpretação de coeficientes log-lineares e uma referência de bairro com amostra muito pequena. Eu rejeitei o freeze, rodei um patch específico e só aceitei a versão final depois de transformar o gate em verificação programática.”
+> “Para os drivers, usei **911 anúncios**, com erro clusterizado por proprietário. O modelo estrutural explica cerca de **33%** da variação; com variáveis operacionais chega a **40%**. Um quarto adicional aparece associado a **19%** e operador profissional a **23%** no preço exibido. Associação, não causalidade.”
 
 ---
 
-## 2:15–2:36 — condição de reversão
+## 1:12–1:48 — Q4 e condição de reversão
 
-**Tela:** threshold de 20%.
+**Tela:** tabela “O que eu compraria hoje” e depois o bloco de reversão.
 
-**Fala:**
-
-> “A decisão tem um ponto objetivo de quebra: se Morretes operar mais de 20% abaixo do Centro, o ranking de eficiência se inverte. A base não permite dizer se esse limiar acontece. É por isso que minha confiança é moderada, não alta.”
-
----
-
-## 2:36–2:52 — mais uma semana
-
-**Tela:** limitações / próximos dados.
-
-**Fala:**
-
-> “Com mais uma semana, eu começaria por três validações: ocupação real por bairro e tipologia, preço efetivo de transação e doze meses de sazonalidade. Eu começaria pela ocupação porque ela sozinha pode mudar a compra recomendada.”
+> “Morretes dois quartos combina **R$498 de preço-noite exibido** com **R$790 mil de preço-pedido mediano** e mais de mil ofertas válidas de venda. O CE90 de **3,1%** é apenas um cenário de 90 dias a 55% hipotéticos; não é ROI observado.
+>
+> O ponto decisivo é este: **se Morretes tiver ocupação mais de 20% abaixo do Centro, eu mudo para Centro dois quartos**. A base não mostra ocupação, então minha confiança é moderada.”
 
 ---
 
-## 2:52–2:57 — fechamento
+## 1:48–2:02 — tese interna
 
-**Tela:** volta para a recomendação.
+**Tela:** “Posição sobre a tese de compactos no Centro”.
 
-**Fala:**
+> “Sobre a tese interna: **studio no Centro é inconclusivo**, porque faltam observações comparáveis. Um quarto no Centro é eficiente, mas não lidera o screen. Eu não transformei ausência de dado em confirmação nem rejeição.”
 
-> “O resultado não é só quem ficou em primeiro na planilha. É saber exatamente o que precisa acontecer para eu mudar de ideia.”
+---
+
+## 2:02–2:32 — como usei IA
+
+**Tela:** `ai-log/01_ai_log.md` em “Auditoria do Checkpoint 4”; depois mostre o gate.
+
+> “No uso de IA, eu separei execução, crítica e auditoria. Isso encontrou um bug **OR versus AND** na regra de amostra e rebaixou um proxy temporal que estava forte demais. No freeze final, a auditoria encontrou que o Consistency Gate dizia PASS com checks hard-coded. Eu interrompi o freeze, corrigi também a regressão e só aceitei depois de um gate programático passar **14 de 14 verificações**.”
+
+---
+
+## 2:32–2:50 — mais uma semana
+
+**Tela:** diligência / limitações no README.
+
+> “Com mais uma semana eu validaria primeiro **ocupação real por bairro e fora da alta temporada**, depois preço efetivo de transação e custos operacionais. A ocupação sozinha já testa o limiar que pode inverter a recomendação.”
+
+---
+
+## 2:50–2:57 — fechamento
+
+**Tela:** volte ao topo do README.
+
+> “Hoje, portanto: **diligenciar Morretes dois quartos primeiro; se a ocupação relativa falhar, migrar para Centro dois quartos**.”
+
+---
+
+## Checklist de gravação
+
+- 1080p;
+- navegador em 110–125% de zoom;
+- feche abas pessoais e notificações;
+- deixe README, Q3, AI log e gate já abertos;
+- não mostre chaves, caminhos pessoais ou histórico do terminal;
+- faça um teste cronometrado antes da tomada final;
+- arquivo final abaixo de 3:00;
+- Google Drive em **qualquer pessoa com o link**;
+- teste o link em janela anônima antes de enviar.

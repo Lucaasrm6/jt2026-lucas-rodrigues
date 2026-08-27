@@ -1,11 +1,6 @@
-# AI Log — prompts principais e respostas literais
+# AI Log — sessão de trabalho com IA
 
-> As respostas do **Claude Code** abaixo foram transcritas literalmente do arquivo de sessão local (`e34984bc-5c7a-4a4b-993e-a3a502f49cf2.jsonl`). Não foram resumidas, reescritas ou corrigidas neste documento.
->
-> Foram removidos apenas itens sem relação com o desenvolvimento analítico: saudações, comandos locais, tentativas iniciais de localização dos arquivos, retries e erros de infraestrutura/API.
->
-> Quando uma conclusão antiga aparece numa resposta literal e depois é corrigida, ela permanece aqui exatamente como ocorreu; a correção aparece no ciclo seguinte.
-
+> Registro dos prompts e respostas utilizados no desenvolvimento analítico do case. As respostas do **Claude Code** são apresentadas literalmente. Quando uma conclusão foi revisada durante o processo, a correção aparece no ciclo subsequente.
 
 ---
 

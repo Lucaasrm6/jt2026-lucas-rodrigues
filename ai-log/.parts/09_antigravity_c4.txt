@@ -1,0 +1,53 @@
+# CHECKPOINT 4 — Resumo de Entrega
+
+> **Status: COMPLETO.** Todos os 20 itens do Checkpoint 4 foram produzidos.
+
+## Ficheiros produzidos neste ciclo
+
+| Ficheiro | Conteúdo | Tamanho |
+|---|---|---|
+| [`checkpoint4-sintese.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/checkpoint4-sintese.md) | Síntese com 20 deliverables | 18 KB |
+| [`decision_engine_c4.py`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision_engine_c4.py) | Motor C4 (Q1-Q4, regressão, cenários, Consistency Gate) | 55 KB |
+| [`decision_engine_c4_results.json`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision_engine_c4_results.json) | Resultados completos em JSON | 39 KB |
+| [`decision-log.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/decision-log.md) | +6 entradas (#27–32) | 13 KB |
+| [`ai-collaboration-index.md`](file:///c:/Users/pc/Desktop/Preparar%20Hackathon/working/ai-collaboration-index.md) | +7 entradas (Ciclo 4 + handoff) | 15 KB |
+
+## Ficheiros preservados (NÃO alterados)
+
+- `checkpoint2-sintese.md`, `checkpoint3-sintese.md` — intactos
+- `decision_engine.py`, `decision_engine_c3.py` — intactos
+- `decision_engine_results.json`, `decision_engine_c3_results.json` — intactos
+- `evidence-ledger.md`, `assumptions.md`, `metrics.md`, `problem-brief.md` — NÃO tocados (Teste 3)
+
+## Verificações realizadas
+
+| Verificação | Resultado |
+|---|---|
+| Números decisivos (Morretes 2q noite/preço/CEI/CE90) | ✅ Match exato |
+| Centro 1q noite/preço/n | ✅ Match exato |
+| Q3 amostra (911 listings) | ✅ Confirmado |
+| Consistency Gate (14 checks) | ✅ **PASS** |
+| Decision-log atualizado (#27–32) | ✅ |
+| AI-collaboration-index atualizado | ✅ |
+
+## Resultados-chave
+
+| Item | Resultado |
+|---|---|
+| **Q1 — Melhor perfil (receita)** | 4 quartos (R$ 1 065/noite) |
+| **Q1 — Melhor perfil (eficiência)** | 1–2 quartos (CEI ~0,0006) |
+| **Q2 — Melhor localização** | Meia Praia overall; Centro dentro de 2Q |
+| **Q3 — Drivers (R²=0,33→0,40)** | Quartos +18%***, bairro +55–78%***, profissional +21%*** (endógeno) |
+| **Q4 — Recomendação primária** | Morretes 2q (CONDICIONAL, confiança MODERADA) |
+| **Q4 — Alternativa** | Centro 2q (se ocupação Centro >25% acima Morretes) |
+| **Tese studio+Centro** | INCONCLUSIVO (0 obs.) |
+| **Tese 1Q+Centro** | PARCIALMENTE SUSTENTADO |
+| **Condição de reversão** | Morretes enche >20% menos que Centro |
+
+## Próximos passos (após aprovação)
+
+O Checkpoint 4 congela a análise. Após aprovação, os passos seguintes são:
+1. README final
+2. Log de IA formatado
+3. Roteiro e vídeo de 3 minutos
+4. Entrega do payload
